@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Demand in Agri-Food System Jobs</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --wb-blue: #002244;
+    --wb-light: #0071BC;
+    --wb-gray: #6B7280;
+    --wb-bg: #FAFBFC;
+  }
+
+  .reveal {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 26px;
+    color: #1f2937;
+  }
+
+  .reveal .slides { text-align: left; }
+
+  .reveal h1, .reveal h2, .reveal h3 {
+    font-family: 'Inter', sans-serif;
+    color: var(--wb-blue);
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: -0.02em;
+  }
+
+  .reveal h1 { font-size: 2.0em; line-height: 1.15; }
+  .reveal h2 { font-size: 1.35em; line-height: 1.2; margin-bottom: 0.4em; }
+  .reveal h3 { font-size: 1.0em; color: var(--wb-light); font-weight: 600; }
+
+  .reveal p, .reveal li { line-height: 1.55; color: #374151; }
+  .reveal ul, .reveal ul ul { margin-left: 0; list-style: none; padding-left: 0; }
+  .reveal ul li {
+    margin-bottom: 0.45em;
+    padding-left: 1.2em;
+    position: relative;
+  }
+  .reveal ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--wb-light);
+    font-size: 1.1em;
+    font-weight: 600;
+    line-height: 1.55;
+  }
+  .reveal ul ul li::before {
+    content: '›';
+    color: #9CA3AF;
+    font-size: 0.95em;
+  }
+  .reveal ol { margin-left: 0.2em; padding-left: 1.2em; }
+  .reveal ol li { margin-bottom: 0.45em; }
+
+  .reveal .subtitle {
+    font-size: 0.85em;
+    color: var(--wb-gray);
+    font-weight: 400;
+    margin-top: 0.2em;
+  }
+
+  .reveal .source {
+    font-size: 0.55em;
+    color: #9CA3AF;
+    margin-top: 0.8em;
+    font-style: italic;
+  }
+
+  .reveal .highlight { color: var(--wb-light); font-weight: 600; }
+
+  .reveal a.source-link {
+    color: var(--wb-light);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1.5px solid rgba(0,113,188,0.25);
+    padding-bottom: 1px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .reveal a.source-link:hover {
+    color: var(--wb-blue);
+    border-bottom-color: var(--wb-blue);
+  }
+  .reveal a.source-link::after {
+    content: ' ↗';
+    font-size: 0.75em;
+    opacity: 0.5;
+  }
+
+  /* custom reference tooltips */
+  .ref-tip {
+    position: relative;
+  }
+  .ref-tip::before {
+    content: attr(data-ref);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1f2937;
+    color: #f3f4f6;
+    font-size: 13px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.45;
+    padding: 10px 14px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    white-space: normal;
+    width: max-content;
+    max-width: 380px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 9999;
+  }
+  .ref-tip::after {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #1f2937;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 9999;
+  }
+  .ref-tip:hover::before,
+  .ref-tip:hover::after {
+    opacity: 1;
+  }
+  .reveal .up   { color: #2D8E57; font-weight: 600; }
+  .reveal .down { color: #E07A3A; font-weight: 600; }
+
+  .reveal .title-slide {
+    text-align: left;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  .reveal .title-slide .title-text {
+    flex: 1 1 55%;
+    padding-left: 0.5em;
+  }
+  .reveal .title-slide h1 {
+    font-size: 2.4em;
+    margin-bottom: 0.15em;
+    line-height: 1.1;
+  }
+
+  .reveal img.chart {
+    max-height: 360px;
+    width: auto;
+    display: block;
+    margin: 0.3em auto 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border-radius: 6px;
+  }
+
+  .reveal img.chart-large {
+    max-height: 420px;
+  }
+
+  .reveal iframe.chart {
+    width: 100%;
+    height: 470px;
+    border: none;
+    border-radius: 4px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .reveal .two-col {
+    display: flex;
+    gap: 2em;
+    align-items: flex-start;
+  }
+  .reveal .two-col .col { flex: 1; }
+  .reveal .two-col .col-wide { flex: 1.5; }
+
+  .reveal .takeaway {
+    background: #EFF6FF;
+    border-left: 4px solid var(--wb-light);
+    padding: 0.6em 1em;
+    border-radius: 4px;
+    font-size: 0.85em;
+    margin-top: 0.5em;
+  }
+
+  .reveal .divider {
+    width: 60px;
+    height: 3px;
+    background: var(--wb-light);
+    margin: 0.6em 0 0.8em;
+    border: none;
+  }
+
+  .reveal .wb-logo {
+    position: fixed;
+    bottom: 16px;
+    right: 24px;
+    font-size: 0.55em;
+    color: #D1D5DB;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .reveal .slide-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #9CA3AF;
+  }
+
+  /* Title slide map */
+  #africa-map-container {
+    flex: 0 0 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    opacity: 0.5;
+  }
+  #africa-map-container svg {
+    width: 100%;
+    max-height: 95%;
+    overflow: visible;
+  }
+
+  @media print {
+    .wb-logo { display: none !important; }
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ═══════════════════════ TITLE ═══════════════════════ -->
+<section>
+  <div class="title-slide">
+    <div class="title-text">
+      <p style="font-size:0.6em; color:var(--wb-gray); font-weight:600; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.5em;">Analytical Note</p>
+      <h1>Skill Demand in<br>Agri-Food System Jobs</h1>
+      <hr class="divider" style="margin:0.8em 0 1em;">
+      <p class="subtitle" style="font-size:1.05em;">Evidence from Selected African Countries</p>
+      <p style="font-size:0.78em; color:var(--wb-gray); margin-top:2em;">
+        Kenya &middot; Nigeria &middot; Uganda
+      </p>
+    </div>
+    <div id="africa-map-container"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ DATA SOURCES ═══════════════════════ -->
+<section>
+  <h2>Data Sources and Construction</h2>
+  <hr class="divider">
+  <p style="font-size:0.82em; color:#374151; margin-bottom:0.5em;">
+    Job vacancy data (2021–2023) covering economy-wide job postings in Kenya, Nigeria, and Uganda.
+    Each posting includes:
+  </p>
+  <div style="display:flex; flex-wrap:wrap; gap:0.4em; margin-bottom:0.9em;">
+    <span style="background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; border-radius:999px; padding:0.2em 0.9em; font-size:0.72em; font-weight:500;">Job title</span>
+    <span style="background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; border-radius:999px; padding:0.2em 0.9em; font-size:0.72em; font-weight:500;">Full text description</span>
+    <span style="background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; border-radius:999px; padding:0.2em 0.9em; font-size:0.72em; font-weight:500;">Location</span>
+    <span style="background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; border-radius:999px; padding:0.2em 0.9em; font-size:0.72em; font-weight:500;">Posting date</span>
+    <span style="background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; border-radius:999px; padding:0.2em 0.9em; font-size:0.72em; font-weight:500;">Employer information</span>
+  </div>
+  <div class="two-col" style="gap:2.5em;">
+    <div class="col">
+      <h3>Primary Source</h3>
+      <ul style="font-size:0.8em;">
+        <li><a href="https://lightcast.io" target="_blank" class="source-link">Lightcast</a> — aggregates job postings from multiple online platforms into a unified database</li>
+        <li>Complementary data via web scraping from major local portals:
+          <ul style="margin-top:0.3em;">
+            <li><strong>Kenya &amp; Nigeria:</strong> <a href="https://www.myjobmag.com" target="_blank" class="source-link">MyJobMag</a></li>
+            <li><strong>Uganda:</strong> <a href="https://www.jobline.co.ug" target="_blank" class="source-link">Jobline</a>, <a href="https://www.greatugandajobs.com" target="_blank" class="source-link">Great Uganda Jobs</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3>Data Construction</h3>
+      <ul style="font-size:0.8em;">
+        <li>Dataset initially covers <strong>all occupations</strong>; NLP methods are used to identify AFS jobs and to extract and classify information from unstructured text, including skills and sector classifications (see Methods)</li>
+        <li>Postings deduplicated using <span class="highlight">semantic similarity</span> of job descriptions</li>
+        <li>Required because Lightcast does not provide unique URLs for cross-source matching</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ DIGITAL CONNECTIVITY ═══════════════════════ -->
+<section>
+  <h2>Coverage of Online Vacancy Data and Digital Connectivity</h2>
+  <hr class="divider">
+  <div class="two-col" style="gap:2em; align-items:flex-start;">
+    <div class="col" style="flex:1.1;">
+      <ul style="font-size:0.76em;">
+        <li>Online job postings are a proxy for aggregate labour demand, especially in African labour markets, where they primarily capture recruitment in the formal, digitalized segment of the economy, while a substantial share of hiring still takes place through <strong>offline and informal channels</strong> (<span class="ref-tip" data-ref="Chinen, M., &amp; Montorsi, C. (2025). Online job postings as a labor market signal: Evidence from Africa. World Bank Policy Research Working Paper."><a href="https://openknowledge.worldbank.org/server/api/core/bitstreams/4858729c-a9e9-424d-967f-68954becb89f/content" target="_blank" class="source-link">Chinen &amp; Montorsi, 2025</a></span>; <span class="ref-tip" data-ref="World Bank. (2019). Informality in Sub-Saharan Africa. Box 2.6.1 in Global Economic Prospects: Darkening Skies. World Bank Group."><a href="https://thedocs.worldbank.org/en/doc/644011571758617675-0050022019/original/GlobalEconomicProspectsJan2019InformalityBox261.pdf" target="_blank" class="source-link">World Bank, 2019</a></span>).</li>
+        <li>The extent to which labour demand is observed online depends partly on <span class="highlight">digital connectivity and platform penetration</span>, not only on underlying hiring activity</li>
+        <li>As a contextual measure, the <a href="https://www.itu.int/itu-d/reports/statistics/IDI2024/" target="_blank" class="source-link">ICT Development Index (IDI)</a> is a 0–100 composite indicator of digital access, use, and skills</li>
+        <li>Online vacancy are likely to capture a <strong>larger share of total labour demand</strong> in more digitally connected markets, particularly in Kenya than in Nigeria or Uganda</li>
+      </ul>
+    </div>
+    <div class="col" style="flex:0.9;">
+      <!-- IDI score cards -->
+      <div style="display:flex; flex-direction:column; gap:0.6em; margin-top:0.2em;">
+        <!-- Kenya -->
+        <div style="background:#F0FAF4; border-left:4px solid #3AADCF; border-radius:6px; padding:0.5em 0.8em;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-weight:700; color:#1f2937; font-size:0.85em;">Kenya</span>
+            <span style="font-size:1.3em; font-weight:700; color:#3AADCF;">58.5</span>
+          </div>
+          <div style="background:#E5E7EB; border-radius:4px; height:8px; margin:0.3em 0 0.2em; position:relative;">
+            <div style="background:#3AADCF; height:100%; border-radius:4px; width:58.5%;"></div>
+            <div style="position:absolute; left:48.2%; top:-3px; height:14px; width:2px; background:#E07A3A;" title="Africa median: 48.2"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.62em; color:#888;">
+            <span>18th of 46 African countries &middot; <strong style="color:#2D8E57;">above</strong> African median</span>
+          </div>
+        </div>
+        <!-- Nigeria -->
+        <div style="background:#F0FAF4; border-left:4px solid #00A876; border-radius:6px; padding:0.5em 0.8em;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-weight:700; color:#1f2937; font-size:0.85em;">Nigeria</span>
+            <span style="font-size:1.3em; font-weight:700; color:#00A876;">46.9</span>
+          </div>
+          <div style="background:#E5E7EB; border-radius:4px; height:8px; margin:0.3em 0 0.2em; position:relative;">
+            <div style="background:#00A876; height:100%; border-radius:4px; width:46.9%;"></div>
+            <div style="position:absolute; left:48.2%; top:-3px; height:14px; width:2px; background:#E07A3A;" title="Africa median: 48.2"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.62em; color:#888;">
+            <span>25th of 46 &middot; <strong style="color:#E07A3A;">below</strong> African median (48.2)</span>
+          </div>
+        </div>
+        <!-- Uganda -->
+        <div style="background:#F0FAF4; border-left:4px solid #E8555E; border-radius:6px; padding:0.5em 0.8em;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <span style="font-weight:700; color:#1f2937; font-size:0.85em;">Uganda</span>
+            <span style="font-size:1.3em; font-weight:700; color:#E8555E;">40.4</span>
+          </div>
+          <div style="background:#E5E7EB; border-radius:4px; height:8px; margin:0.3em 0 0.2em; position:relative;">
+            <div style="background:#E8555E; height:100%; border-radius:4px; width:40.4%;"></div>
+            <div style="position:absolute; left:48.2%; top:-3px; height:14px; width:2px; background:#E07A3A;" title="Africa median: 48.2"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.62em; color:#888;">
+            <span>34th of 46 &middot; <strong style="color:#E07A3A;">below</strong> African median (48.2)</span>
+          </div>
+        </div>
+        <!-- Legend -->
+        <div style="display:flex; align-items:center; gap:0.6em; font-size:0.58em; color:#999; margin-top:0.1em; padding-left:0.3em;">
+          <span style="display:inline-flex; align-items:center; gap:0.25em;"><span style="display:inline-block; width:10px; height:2px; background:#E07A3A;"></span> Africa median (48.2)</span>
+          <span>&middot;</span>
+          <span>Global mean: 75.0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="source">Source: ITU, <a href="https://www.itu.int/itu-d/reports/statistics/IDI2024/" target="_blank" class="source-link" style="font-size:1em;">ICT Development Index 2024</a> (based on 2022 data); own calculations</p>
+</section>
+
+<!-- ═══════════════════════ POSTINGS PER 100K + GDP ═══════════════════════ -->
+<section>
+  <h2 style="margin:0 0 0.05em;">Online Job Market Activity</h2>
+  <p class="subtitle" style="margin:0 0 0.1em; font-size:0.68em;">Job postings per 100k labour force and real GDP growth &middot; 2021–2023</p>
+  <hr class="divider">
+  <p style="font-size:0.62em; color:#2c3e50; font-weight:700; margin:0.45em 0 0.8em; line-height:1.5; max-width:94%; background:#f8f9fa; border-left:4px solid #00A876; border-radius:4px; padding:0.45em 0.7em;">
+    <strong style="color:#2c3e50;">Kenya</strong> shows strong and sustained growth in online job postings, rising from 288 to 974 per 100k labour force. <strong style="color:#2c3e50;">Nigeria's</strong> postings dipped in 2022 before rebounding sharply in 2023. <strong style="color:#2c3e50;">Uganda's</strong> posting intensity declined modestly, despite solid GDP growth, suggesting that aggregate economic activity alone does not drive online hiring volumes.
+  </p>
+  <div style="display:flex; gap:0.4em; margin-top:0.05em;">
+    <iframe data-src="results/charts/chart_postings_per_100k.html" style="flex:1; height:340px; border:none; border-radius:4px;"></iframe>
+    <iframe data-src="results/charts/chart_gdp_annual.html" style="flex:1; height:340px; border:none; border-radius:4px;"></iframe>
+  </div>
+  <div style="display:flex; gap:0.4em; margin:-0.25em 0 0;">
+    <span style="flex:1; font-size:0.38em; color:#aaa;">Source: Lightcast, MyJobMag, Jobline, Great Uganda Jobs | World Bank / ILO</span>
+    <span style="flex:1; font-size:0.38em; color:#aaa;">Source: IMF, World Economic Outlook 2024</span>
+  </div>
+  <p style="font-size:0.47em; color:#888; margin:0.45em 0 0; line-height:1.45;">
+    <strong style="color:#777;">Note:</strong> Quarterly correlation analysis shows no statistically significant relationship between GDP growth and posting volumes, including at &plusmn;1-quarter lags.
+  </p>
+</section>
+
+
+<!-- ═══════════════════════ AFS CLASSIFICATION ═══════════════════════ -->
+<section>
+  <h2>AFS Job Classification</h2>
+  <p class="subtitle">Keyword-based identification of agri-food system postings</p>
+  <hr class="divider">
+  <p style="font-size:0.62em; color:#2c3e50; font-weight:700; margin:0 0 0.8em; line-height:1.5; max-width:94%; background:#f8f9fa; border-left:4px solid #00A876; border-radius:4px; padding:0.45em 0.7em;">
+    Each job posting is classified as AFS based on <strong>keyword matching</strong> applied to job titles. Keywords are defined as regular expressions that capture morphological variants, compound terms, and domain-specific phrases. A posting is flagged as AFS if any keyword from the on-farm or off-farm dictionaries matches.
+  </p>
+  <p style="font-size:0.52em; color:#999; margin:0 0 0.4em;">Click a category below to see the full keyword list.</p>
+  <div class="two-col" style="gap:1.5em; align-items:flex-start;">
+    <div class="col" style="flex:1;">
+      <div style="margin-bottom:0.4em;">
+        <div style="font-weight:600; color:var(--wb-blue); font-size:0.65em; margin-bottom:0.25em;">On-Farm</div>
+        <div style="display:flex; flex-wrap:wrap; gap:0.3em; font-size:0.52em;">
+          <button onclick="document.getElementById('modal-crop').style.display='flex'" style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:16px; padding:3px 10px; cursor:pointer; font-family:inherit; font-size:1em; color:#2e7d32;">Crop production</button>
+          <button onclick="document.getElementById('modal-livestock').style.display='flex'" style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:16px; padding:3px 10px; cursor:pointer; font-family:inherit; font-size:1em; color:#2e7d32;">Livestock</button>
+          <button onclick="document.getElementById('modal-fisheries').style.display='flex'" style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:16px; padding:3px 10px; cursor:pointer; font-family:inherit; font-size:1em; color:#2e7d32;">Fisheries</button>
+          <button onclick="document.getElementById('modal-forestry').style.display='flex'" style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:16px; padding:3px 10px; cursor:pointer; font-family:inherit; font-size:1em; color:#2e7d32;">Forestry</button>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="flex:1;">
+      <div style="margin-bottom:0.4em;">
+        <div style="font-weight:600; color:var(--wb-blue); font-size:0.65em; margin-bottom:0.25em;">Off-Farm</div>
+        <div style="display:flex; flex-wrap:wrap; gap:0.3em; font-size:0.52em;">
+          <button onclick="document.getElementById('modal-inputs').style.display='flex'" style="background:#e3f2fd; border:1px solid #bbdefb; border-radius:16px; padding:3px 10px; cursor:pointer; font-family:inherit; font-size:1em; color:#1565c0;">Inputs &amp; services</button>
+          <button onclick="document.getElementById('modal-processing').style.display='flex'" style="background:#e3f2fd; border:1px solid #bbdefb; border-radius:16px; padding:3px 10px; cursor:pointer; font-family:inherit; font-size:1em; color:#1565c0;">Processing</button>
+          <button onclick="document.getElementById('modal-trading').style.display='flex'" style="background:#e3f2fd; border:1px solid #bbdefb; border-radius:16px; padding:3px 10px; cursor:pointer; font-family:inherit; font-size:1em; color:#1565c0;">Trading &amp; logistics</button>
+          <button onclick="document.getElementById('modal-service').style.display='flex'" style="background:#e3f2fd; border:1px solid #bbdefb; border-radius:16px; padding:3px 10px; cursor:pointer; font-family:inherit; font-size:1em; color:#1565c0;">Food service</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <iframe data-src="results/charts/chart_onfarm_offfarm_bar_compact.html" style="width:100%; height:340px; border:none; border-radius:4px; margin-top:0.1em;"></iframe>
+  <p style="font-size:0.49em; color:#555; margin:0.34em 0 0; line-height:1.5; border-left:3px solid #3AADCF; padding-left:0.7em;">
+    The on-farm/off-farm balance in online job postings differs markedly from employment structure across all three countries: the on/off-farm ratio in employment is 2.76 in Kenya, 1.98 in Nigeria, and 6.97 in Uganda, compared with 1.33, 0.50, and 3.67, respectively, in observed online job demand (2021). This likely reflects the fact that off-farm activities often have higher turnover and more frequent hiring cycles-for example in restaurants and other service activities-than the more selective, higher-skill on-farm roles captured in online vacancy data, while on-farm hiring is also less likely to be advertised online.
+  </p>
+</section>
+
+<!-- ═══════════════════════ ON/OFF MONTHLY ═══════════════════════ -->
+<section>
+  <h2>On-Farm vs Off-Farm: Monthly Trends</h2>
+  <p class="subtitle">3-month rolling average</p>
+  <hr class="divider">
+  <p style="font-size:0.6em; color:#2c3e50; font-weight:700; margin:0 0 0.45em; line-height:1.45; max-width:94%; background:#f8f9fa; border-left:4px solid #00A876; border-radius:4px; padding:0.38em 0.65em;">
+    Zooming in from annual to monthly data, we examine whether the trends mask within-year seasonality and whether on- and off-farm demand move together or diverge over time.
+  </p>
+  <iframe data-src="results/charts/chart_onfarm_offfarm_monthly.html" class="chart" style="height:345px;"></iframe>
+  <p style="font-size:0.5em; color:#555; margin:0.14em 0 0.1em; line-height:1.38; border-left:3px solid #00A876; padding-left:0.65em;">
+    Nigeria is the only country where off-farm postings consistently dominate, and the gap widened sharply in late 2023.<br>
+    Uganda shows the opposite pattern - on-farm postings lead throughout the entire period, with off-farm remaining structurally low.<br>
+    Kenya is the most balanced of the three, with both categories tracking closely and converging by end-2023.<br>
+    Volatility is highest in Nigeria (off-farm) and Uganda (on-farm), while Kenya shows the smoothest trends overall.
+  </p>
+  <p style="font-size:0.42em; color:#666; margin:0.1em 0 0; line-height:1.3; border-left: 3px solid #ccc; padding-left: 0.65em;">
+    <strong>Note:</strong> OLS regressions of monthly posting counts on month dummies (log-level, January as reference) yield no jointly significant seasonal pattern in any country–sector combination (F-tests, p &gt; 0.10 in all cases). This suggests that online AFS vacancy data do not exhibit systematic within-year cyclicality consistent with agricultural production calendars, and predominantly reflect formal-sector hiring unrelated to seasonal agricultural activity.
+  </p>
+</section>
+
+
+<!-- ═══════════════════════ SKILL PIPELINE ═══════════════════════ -->
+<section>
+  <h2>Skill Extraction &amp; Standardization Pipeline</h2>
+  <p class="subtitle">Two-stage approach</p>
+  <hr class="divider">
+  <p style="font-size:0.62em; color:#2c3e50; font-weight:700; margin:0 0 0.8em; line-height:1.5; max-width:94%; background:#f8f9fa; border-left:4px solid #00A876; border-radius:4px; padding:0.45em 0.7em;">
+    Job postings describe skills in free text, inconsistently and without a common language. To measure skill demand at scale, we first extract skill mentions from raw descriptions, then standardize them against an official taxonomy, enabling consistent comparisons across countries, sectors, and levels of granularity.
+  </p>
+  <div style="display:flex; gap:1.6em; align-items:flex-start; margin-top:0.2em;">
+    <!-- Stage 1 -->
+    <div style="flex:1;">
+      <div style="background:#f0faf4; border-radius:8px; padding:0.55em 0.7em; margin-bottom:0.5em;">
+        <div style="font-size:0.6em; font-weight:700; color:#2c3e50; margin-bottom:0.25em;">
+          <span style="display:inline-block; background:#00A876; color:#fff; border-radius:50%; width:1.5em; height:1.5em; text-align:center; line-height:1.5em; font-size:0.85em; margin-right:0.3em;">1</span>
+          Skill Extraction <span style="font-weight:400; color:#888;">(LLM-based)</span>
+        </div>
+        <ul style="font-size:0.52em; color:#555; margin:0; padding-left:1.2em; line-height:1.55;">
+          <li>Language model applied to unstructured job descriptions</li>
+          <li>Extracts explicit and implicit skill candidates at sentence level</li>
+          <li>Designed to maximize recall</li>
+        </ul>
+      </div>
+      <!-- Stage 2 -->
+      <div style="background:#eef6fc; border-radius:8px; padding:0.55em 0.7em;">
+        <div style="font-size:0.6em; font-weight:700; color:#2c3e50; margin-bottom:0.25em;">
+          <span style="display:inline-block; background:#3AADCF; color:#fff; border-radius:50%; width:1.5em; height:1.5em; text-align:center; line-height:1.5em; font-size:0.85em; margin-right:0.3em;">2</span>
+          Skill Standardization <span style="font-weight:400; color:#888;">(ESCO mapping)</span>
+        </div>
+        <ul style="font-size:0.52em; color:#555; margin:0; padding-left:1.2em; line-height:1.55;">
+          <li>Candidates mapped to 13,890 ESCO skills &amp; knowledge concepts</li>
+          <li>Enables cross-country and cross-sector comparability</li>
+          <li>Enables aggregation of skills at different hierarchical levels</li>
+        </ul>
+      </div>
+    </div>
+    <!-- Right column -->
+    <div style="flex:1;">
+      <div style="background:#f8f9fa; border-radius:8px; padding:0.55em 0.7em; margin-bottom:0.5em;">
+        <div style="font-size:0.6em; font-weight:700; color:#2c3e50; margin-bottom:0.25em;">Context-aware matching</div>
+        <ul style="font-size:0.52em; color:#555; margin:0; padding-left:1.2em; line-height:1.55;">
+          <li>Combines skill candidate signal with full job description context</li>
+          <li>Uses sentence embeddings + cosine similarity</li>
+          <li>Retains top matches above a calibrated threshold</li>
+        </ul>
+      </div>
+      <div style="background:#f8f9fa; border-radius:8px; padding:0.55em 0.7em;">
+        <div style="font-size:0.6em; font-weight:700; color:#2c3e50; margin-bottom:0.25em;">Model refinement</div>
+        <ul style="font-size:0.52em; color:#555; margin:0; padding-left:1.2em; line-height:1.55;">
+          <li>Fine-tuned on large synthetic dataset of annotated job ads</li>
+          <li>Uses contrastive learning</li>
+          <li>Improves disambiguation and robustness to noisy / implicit skills</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:0.58em; color:#555; margin:0.5em 0 0; line-height:1.5; border-left:3px solid #00A876; padding-left:0.7em;">
+    Our pipeline outperforms the current state of the art (<span class="ref-tip" data-ref="Decorte, J. J., Van Hautte, J., Develder, C., &amp; Demeester, T. (2025). Efficient text encoders for labor market analysis. IEEE Access."><a href="https://ieeexplore.ieee.org/abstract/document/11079977" target="_blank" class="source-link">Decorte et al., 2025</a></span>) by approx. 3 percentage points in RP@5 on the HOUSE and TECH benchmark datasets. These benchmarks consist of job postings annotated with ESCO gold-standard skill labels by human experts, against which model predictions are evaluated. Our approach achieves RP@5 scores of 0.822 and 0.838, respectively.
+  </p>
+</section>
+
+<!-- ═══════════════════════ SKILL MAPPING EXAMPLE ═══════════════════════ -->
+<section>
+  <h2>Mapping Skills to ESCO</h2>
+  <p class="subtitle">Validation against Lightcast benchmark</p>
+  <hr class="divider">
+  <p style="font-size:0.62em; color:#2c3e50; font-weight:700; margin:0 0 0.8em; line-height:1.5; max-width:92%; background:#f8f9fa; border-left:4px solid #00A876; border-radius:4px; padding:0.45em 0.7em;">
+    Our NLP pipeline identifies nearly twice as many skills per job as Lightcast.
+  </p>
+  <div class="two-col" style="gap:1.5em; align-items:flex-start;">
+    <div class="col" style="flex:1;">
+      <div style="display:flex; gap:0.6em; margin-bottom:0.5em;">
+        <div style="flex:1; background:#f0faf4; border-radius:6px; padding:0.4em 0.6em; text-align:center;">
+          <div style="font-size:0.5em; color:#888; text-transform:uppercase; letter-spacing:0.5px;">SkillMap (our pipeline)</div>
+          <div style="font-size:1.4em; font-weight:700; color:#2c3e50;">17</div>
+          <div style="font-size:0.5em; color:#888;">skills / job (mean)</div>
+          <div style="font-size:0.44em; color:#aaa; margin-top:0.15em;">IQR: 6 – 25</div>
+        </div>
+        <div style="flex:1; background:#eef6fc; border-radius:6px; padding:0.4em 0.6em; text-align:center;">
+          <div style="font-size:0.5em; color:#888; text-transform:uppercase; letter-spacing:0.5px;">Lightcast benchmark</div>
+          <div style="font-size:1.4em; font-weight:700; color:#2c3e50;">9</div>
+          <div style="font-size:0.5em; color:#888;">skills / job (mean)</div>
+          <div style="font-size:0.44em; color:#aaa; margin-top:0.15em;">IQR: 4 – 12</div>
+        </div>
+      </div>
+      <p style="font-size:0.56em; color:#4a4a4a; margin:0; line-height:1.5; background:#f8f9fa; border-left:3px solid #3AADCF; border-radius:4px; padding:0.42em 0.62em;">
+        The higher count reflects that embedding-based matching captures <strong style="color:#2c3e50;">implicit skills</strong> inferred from context — requirements that are not stated verbatim but implied by the described duties.
+      </p>
+    </div>
+    <div class="col" style="flex:1.1;">
+      <div style="background:#f8f9fa; border-radius:6px; padding:0.5em 0.65em; font-size:0.52em; line-height:1.5;">
+        <div style="font-weight:700; color:var(--wb-blue); margin-bottom:0.3em;">Example: Irrigation Engineer · Siaya County, Kenya</div>
+        <div style="color:#555; font-size:0.88em; margin-bottom:0.4em; line-height:1.45;">
+          <em style="color:#888;">Duties and Responsibilities:</em> 1. Collating and compiling data for irrigation planning. 2. Organizing farmers meetings for irrigation participatory development. 3. Setting up of irrigation demonstration plots. 4. Implementing irrigation action plans. 5. Undertaking feasibility studies and preliminary investigations.
+          <span id="duties-more" style="display:none;"> 6. Training farmers on irrigation development technologies and environmental management. 7. Designing and supervising construction of irrigation infrastructure. 8. Preparing irrigation schemes operation and maintenance schedules. 9. Preparation of work plans and budgets. 10. Compilation of periodic reports. 11. Any other duty as may be assigned by the Station manager. 12. Identification and documentation of opportunities for land development and soil and water conservation. 13. Carrying out reconnaissance surveys and farm mapping services for development of conservation structures for water harvesting and cropping. 14. Designing water harvesting structures and supervising the construction work. 15. Providing on farm contractual design and survey services to clients. 16. Liaising with sub county Agribusiness Development Officers in farm planning. 17. Generating and review land use maps on land use potential. 18. Preparation of work plans and budgets. 19. Compilation of periodic reports. 20. Any other duties assigned by the Station Manager.<br><br><em style="color:#888;">Requirements for Appointment:</em> 1. Must have Bachelor's Degree in a field of Agricultural Engineering or any other relevant and equivalent qualification. 2. Must be registered as a graduate Engineer with Engineers Board of Kenya (EBK). 3. Must be in possession of current certificate of good standing from Engineers Board of Kenya. 4. Must have certification in CAD applications. 5. Certificate in computer applications. 6. Meet requirement of Chapter Six (6) of the Constitution of Kenya 2010.</span>
+          <button onclick="var el=document.getElementById('duties-more'); var btn=this; if(el.style.display==='none'){el.style.display='inline';btn.textContent='show less';}else{el.style.display='none';btn.textContent='show more …';}" style="background:none; border:none; color:var(--wb-light); font-size:0.9em; font-weight:600; cursor:pointer; padding:0 2px; text-decoration:underline; text-underline-offset:2px;">show more …</button>
+        </div>
+        <div style="display:flex; gap:0.6em;">
+          <div style="flex:1;">
+            <div style="font-weight:600; color:#3AADCF; font-size:0.88em; margin-bottom:0.2em;">Lightcast (4 skills)</div>
+            <div style="font-size:0.88em; color:#444;">
+              <span style="display:inline-block; background:#e0f2f1; border-radius:10px; padding:1px 7px; margin:1px;">irrigation systems</span>
+              <span style="display:inline-block; background:#e0f2f1; border-radius:10px; padding:1px 7px; margin:1px;">agroecology</span>
+              <span style="display:inline-block; background:#e0f2f1; border-radius:10px; padding:1px 7px; margin:1px;">soil science</span>
+              <span style="display:inline-block; background:#e0f2f1; border-radius:10px; padding:1px 7px; margin:1px;">planning</span>
+            </div>
+          </div>
+          <div style="flex:1;">
+            <div style="font-weight:600; color:#00A876; font-size:0.88em; margin-bottom:0.2em;">SkillMap (25 skills)</div>
+            <div style="font-size:0.82em; color:#444;">
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">execute feasibility study</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">use CAD software</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">create CAD drawings</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">organise irrigation</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">develop irrigation strategies</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">install irrigation systems</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">set up drip irrigation system</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">develop water supply schedule</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">plan schedule</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">write routine reports</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">prepare work instructions</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">conduct land surveys</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">surveying</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">collect mapping data</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">design drainage well systems</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">operate agricultural machinery</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">liaise with crop growers</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">provide advice to farmers</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">conserve water resource</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">employ habitat survey techniques</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">manage land resources permits</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">advise on use of land</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">agricultural equipment</span>
+              <span style="display:inline-block; background:#e8f5e9; border-radius:10px; padding:1px 7px; margin:1px;">agricultural business management</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SKILLS S1 ═══════════════════════ -->
+<section>
+  <h2>Skills Profile: On-Farm vs Off-Farm</h2>
+  <p class="subtitle">ESCO Level 1 skill categories</p>
+  <hr class="divider">
+  <p style="font-size:0.62em; color:#2c3e50; font-weight:700; margin:0 0 0.8em; line-height:1.5; max-width:94%; background:#f8f9fa; border-left:4px solid #00A876; border-radius:4px; padding:0.45em 0.7em;">
+    ESCO's 8 major skill groups provide the top level of the occupational skill taxonomy. The distribution below shows the composition of skill demand across all extracted postings, separately for on- and off-farm jobs, as a first-pass decomposition before drilling into finer categories.
+  </p>
+  <iframe data-src="results/charts/chart_skills_s1.html" class="chart" style="height:400px;"></iframe>
+  <div style="background:#f8f9fa; border-left:3px solid #3AADCF; border-radius:4px; padding:0.24em 0.6em; margin:0.02em 0 0; font-size:0.45em; color:#444; line-height:1.45;">
+    Cross-country differences are generally limited, pointing to a broadly similar structure of skill demand in the analyzed countries.
+    The main variation observed is that in Nigeria, on-farm jobs show relatively higher demand for skills related to working with machinery and specialised equipment, while in off-farm jobs working with computer skills are less frequently required compared to Kenya and Uganda.
+    Across countries, on-farm jobs demand significantly more <strong style="color:#2D8E57;">IT skills</strong> (50% vs 26%) and <strong style="color:#2D8E57;">information skills</strong>, while off-farm roles emphasise <strong style="color:#E07A3A;">assisting and caring</strong> (77% vs 59%) and <strong style="color:#E07A3A;">handling and moving</strong>.
+    The relatively high IT intensity in on-farm postings likely reflects selection effects in online vacancy data: digitally advertised on-farm roles tend to be more formalized and skill-intensive - such as irrigation engineering, precision agriculture, and farm management - rather than traditional low-skill agricultural work.
+  </div>
+</section>
+
+<!-- ═══════════════════════ SKILLS S2 ═══════════════════════ -->
+<section>
+  <h2>Skills Detail: 2-Digit Level</h2>
+  <p class="subtitle">Top 1 sub-category within each 1-digit skill group, side by side: on-farm vs off-farm</p>
+  <hr class="divider">
+  <p style="font-size:0.62em; color:#2c3e50; font-weight:700; margin:0 0 0.5em; line-height:1.5; max-width:94%; background:#f8f9fa; border-left:4px solid #00A876; border-radius:4px; padding:0.45em 0.7em;">
+    Moving one level down the taxonomy, we decompose each of the 8 major skill groups into 2-digit sub-categories. For each group, we show the single most prevalent sub-category, separately for on- and off-farm jobs, to identify where within each broad domain skill demand is most concentrated.
+  </p>
+  <iframe data-src="results/charts/chart_skills_s2.html?v=2" class="chart" scrolling="no" style="height:430px;"></iframe>
+  <p style="font-size:0.48em; color:#555; margin:0.08em 0 0; line-height:1.45; border-left:3px solid #3AADCF; padding-left:0.7em;">
+    On-farm skill profiles are highly consistent across countries — the same sub-categories dominate in all three markets, reflecting a common occupational structure of formalized on-farm roles.
+    Off-farm profiles show more cross-country variation, particularly in communication skills (teaching in Kenya, sales in Nigeria, teamwork in Uganda) and in the caring and service domain (food preparation is prominent in Nigeria, while compliance-related skills (guidelines enforcement) lead in Kenya and Uganda).
+  </p>
+</section>
+
+<!-- ═══════════════════════ KNOWLEDGE ═══════════════════════ -->
+<section>
+  <h2>Knowledge Domains: On-Farm vs Off-Farm</h2>
+  <p class="subtitle">ESCO 3-digit knowledge categories</p>
+  <hr class="divider">
+  <p style="font-size:0.62em; color:#2c3e50; font-weight:700; margin:0 0 0.55em; line-height:1.5; max-width:94%; background:#f8f9fa; border-left:4px solid #00A876; border-radius:4px; padding:0.45em 0.7em;">
+    ESCO distinguishes between skills — what workers do — and knowledge concepts — what they need to understand. We extract both, and show here how knowledge demand decomposes across 3-digit categories for on- and off-farm postings separately.
+  </p>
+  <iframe data-src="results/charts/chart_knowledge.html?v=5" class="chart" scrolling="no" style="height:430px;"></iframe>
+  <p style="font-size:0.45em; color:#444; line-height:1.5; margin:0.08em 0.8em 0; background:#f0f4f8; border-left:3px solid #3AADCF; padding:0.35em 0.65em; border-radius:4px;">
+    The knowledge profile of AFS job demand is broadly consistent across the three countries: agriculture dominates on-farm postings, while manufacturing &amp; processing and personal services are the leading off-farm domains. Business &amp; administration knowledge is prevalent in both segments. Cross-country variation is limited, though Uganda shows somewhat higher demand for architecture &amp; construction knowledge in on-farm roles, and Kenya records a comparatively larger share of personal services in off-farm postings.
+  </p>
+</section>
+
+<!-- ═══════════════════════ LOGIT ═══════════════════════ -->
+<section>
+  <h2>Skill Profiles of On-Farm vs Off-Farm Jobs: Logistic regression</h2>
+  <p class="subtitle">P(on-farm) ~ skill categories + country FE &middot; N = 33,000</p>
+  <hr class="divider">
+  <p style="font-size:0.62em; color:#2c3e50; font-weight:700; margin:0 0 0.6em; line-height:1.5; max-width:94%; background:#f8f9fa; border-left:4px solid #00A876; border-radius:4px; padding:0.45em 0.7em;">
+    The country-by-country charts show a consistent pattern, but to formally test which skill groups systematically discriminate between on- and off-farm jobs across all three markets, and to quantify the effect size, we pool the data and estimate a logistic regression with country fixed effects.
+  </p>
+  <p style="font-size:0.44em; color:#444; line-height:1.5; margin:0 0.5em 0.15em; font-style:italic;">
+    OR &gt; 1 = more likely in <b style="color:#2D8E57;">on-farm</b>; OR &lt; 1 = more likely in <b style="color:#42a5f5;">off-farm</b>.
+    On-farm roles stand out for their technical, data-driven profile; off-farm roles reflect service-oriented occupations.
+  </p>
+  <iframe data-src="results/charts/chart_logit.html" class="chart" style="height:350px;"></iframe>
+  <div style="display:flex; gap:1.5em; margin-top:0.1em; font-size:0.42em; align-items:flex-start;">
+    <div style="flex:1;">
+      <span style="font-weight:700; color:#2D8E57;">&#9650; On-Farm (OR&gt;1):</span>
+      <span style="color:#555;">S5 Computers <b style="color:#2D8E57">2.86***</b> · S7 Constructing <b style="color:#2D8E57">1.75***</b> · S2 Information <b style="color:#2D8E57">1.73***</b> · S4 Management <b style="color:#2D8E57">1.47***</b></span>
+    </div>
+    <div style="flex:1;">
+      <span style="font-weight:700; color:#42a5f5;">&#9660; Off-Farm (OR&lt;1):</span>
+      <span style="color:#555;">S3 Assisting &amp; caring <b style="color:#42a5f5">0.30***</b> · S6 Handling &amp; moving <b style="color:#42a5f5">0.64***</b> · Transversal <b style="color:#42a5f5">0.84***</b> · S8 Machinery <b style="color:#42a5f5">0.88***</b></span>
+    </div>
+  </div>
+  <div style="font-size:0.42em; color:#555; margin-top:0.1em; line-height:1.35;">
+    S1 Communication — n.s. (p = 0.09). Country FE: Nigeria strongly off-farm (0.38***); Uganda on-farm (2.67***). Pseudo R² = 0.157.
+  </div>
+</section>
+
+<!-- ═══════════════════════ NEXT STEPS ═══════════════════════ -->
+<section>
+  <h2>Next Steps</h2>
+  <hr class="divider">
+  <div style="display:flex; flex-direction:column; gap:1em; margin-top:0.6em;">
+
+    <div style="display:flex; align-items:flex-start; gap:1em;">
+      <div style="flex-shrink:0; width:2em; height:2em; border-radius:50%; background:#002244; color:#fff; display:flex; align-items:center; justify-content:center; font-size:0.7em; font-weight:700; margin-top:0.1em;">1</div>
+      <div>
+        <div style="font-size:0.65em; font-weight:700; color:#2c3e50; margin-bottom:0.2em;">AFS vs. Manufacturing: Comparative Skill Demand</div>
+        <div style="font-size:0.56em; color:#555; line-height:1.55;">Extend the analysis to compare skill demand profiles in AFS and manufacturing jobs, highlighting similarities and differences in required competencies. This comparison positions AFS skills within the broader structural transformation of African economies.</div>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:1em;">
+      <div style="flex-shrink:0; width:2em; height:2em; border-radius:50%; background:#3AADCF; color:#fff; display:flex; align-items:center; justify-content:center; font-size:0.7em; font-weight:700; margin-top:0.1em;">2</div>
+      <div>
+        <div style="font-size:0.65em; font-weight:700; color:#2c3e50; margin-bottom:0.2em;">Regional Analysis of Off-Farm Jobs</div>
+        <div style="font-size:0.56em; color:#555; line-height:1.55;">Update and deepen the regional breakdown of off-farm job postings, building on insights from the previous progress report. </div>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:1em;">
+      <div style="flex-shrink:0; width:2em; height:2em; border-radius:50%; background:#00A876; color:#fff; display:flex; align-items:center; justify-content:center; font-size:0.7em; font-weight:700; margin-top:0.1em;">3</div>
+      <div>
+        <div style="font-size:0.65em; font-weight:700; color:#2c3e50; margin-bottom:0.2em;">Skill Co-occurrence and Characteristic Bundles</div>
+        <div style="font-size:0.56em; color:#555; line-height:1.55;">Deepen the analysis of skill co-occurrence patterns and identify characteristic skill bundles — recurring combinations of competencies that define distinct occupational profiles within the AFS labour market.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ END ═══════════════════════ -->
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<!-- keyword modals (outside reveal to avoid transform issues) -->
+<div id="modal-crop" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10000; align-items:center; justify-content:center;">
+  <div onclick="event.stopPropagation()" style="background:#fff; border-radius:10px; padding:1.5em 2em; max-width:520px; box-shadow:0 8px 30px rgba(0,0,0,0.3); font-family:'Inter',sans-serif;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5em;">
+      <h3 style="margin:0; color:#002244; font-size:1em;">Crop Production Keywords</h3>
+      <button onclick="document.getElementById('modal-crop').style.display='none'" style="background:none; border:none; font-size:1.3em; cursor:pointer; color:#888;">✕</button>
+    </div>
+    <div style="font-size:0.82em; color:#444; line-height:1.7;">
+      <code>crop*</code>, <code>arable</code>, <code>horticultur*</code>, <code>agronom*</code>, <code>plantation</code>, <code>irrigation</code>, <code>cereal</code>, <code>maize</code>, <code>wheat</code>, <code>rice</code>, <code>sorghum</code>, <code>cassava</code>, <code>groundnut</code>, <code>viticulture</code>, <code>smallholder</code>, <code>soil health/fertility/management/science/conservation</code>, <code>field crop</code>, <code>plant breed*/pathol*</code>, <code>seed farm</code>, <code>crop produc*/manag*/protect*/monitor*/harvest*/yield*/research*/officer</code>
+    </div>
+    <p style="font-size:0.74em; color:#888; margin:0.7em 0 0; line-height:1.45;"><strong style="color:#777;">Note:</strong> <code>*</code> indicates wildcard matching, used to capture different morphological variants of a term.</p>
+  </div>
+</div>
+
+<div id="modal-livestock" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10000; align-items:center; justify-content:center;">
+  <div onclick="event.stopPropagation()" style="background:#fff; border-radius:10px; padding:1.5em 2em; max-width:520px; box-shadow:0 8px 30px rgba(0,0,0,0.3); font-family:'Inter',sans-serif;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5em;">
+      <h3 style="margin:0; color:#002244; font-size:1em;">Livestock Keywords</h3>
+      <button onclick="document.getElementById('modal-livestock').style.display='none'" style="background:none; border:none; font-size:1.3em; cursor:pointer; color:#888;">✕</button>
+    </div>
+    <div style="font-size:0.82em; color:#444; line-height:1.7;">
+      <code>livestock</code>, <code>cattle</code>, <code>beef farm</code>, <code>dairy farm/produc*/herd/cow/manag*</code>, <code>poultry farm/produc*/manag*</code>, <code>broiler</code>, <code>layer farm/chicken</code>, <code>pig farm</code>, <code>swine</code>, <code>piggery</code>, <code>goat farm</code>, <code>sheep farm</code>, <code>animal husbandry</code>, <code>ranch*</code>, <code>pastoral</code>, <code>apiculture</code>, <code>apiary</code>, <code>beekeeping</code>, <code>sericulture</code>, <code>animal produc*</code>, <code>herd manag*/health</code>, <code>zootechn*</code>, <code>milk</code>
+    </div>
+    <p style="font-size:0.74em; color:#888; margin:0.7em 0 0; line-height:1.45;"><strong style="color:#777;">Note:</strong> <code>*</code> indicates wildcard matching, used to capture different morphological variants of a term.</p>
+  </div>
+</div>
+
+<div id="modal-fisheries" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10000; align-items:center; justify-content:center;">
+  <div onclick="event.stopPropagation()" style="background:#fff; border-radius:10px; padding:1.5em 2em; max-width:520px; box-shadow:0 8px 30px rgba(0,0,0,0.3); font-family:'Inter',sans-serif;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5em;">
+      <h3 style="margin:0; color:#002244; font-size:1em;">Fisheries Keywords</h3>
+      <button onclick="document.getElementById('modal-fisheries').style.display='none'" style="background:none; border:none; font-size:1.3em; cursor:pointer; color:#888;">✕</button>
+    </div>
+    <div style="font-size:0.82em; color:#444; line-height:1.7;">
+      <code>fishing</code>, <code>fishery/fisheries</code>, <code>aquaculture</code>, <code>mariculture</code>, <code>pisciculture</code>, <code>fish farm/pond/breed/hatcher*/produc*/culture</code>, <code>fish farmer</code>, <code>tilapia</code>, <code>catfish</code>, <code>shrimp farm</code>
+    </div>
+    <p style="font-size:0.74em; color:#888; margin:0.7em 0 0; line-height:1.45;"><strong style="color:#777;">Note:</strong> <code>*</code> indicates wildcard matching, used to capture different morphological variants of a term.</p>
+  </div>
+</div>
+
+<div id="modal-forestry" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10000; align-items:center; justify-content:center;">
+  <div onclick="event.stopPropagation()" style="background:#fff; border-radius:10px; padding:1.5em 2em; max-width:520px; box-shadow:0 8px 30px rgba(0,0,0,0.3); font-family:'Inter',sans-serif;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5em;">
+      <h3 style="margin:0; color:#002244; font-size:1em;">Forestry Keywords</h3>
+      <button onclick="document.getElementById('modal-forestry').style.display='none'" style="background:none; border:none; font-size:1.3em; cursor:pointer; color:#888;">✕</button>
+    </div>
+    <div style="font-size:0.82em; color:#444; line-height:1.7;">
+      <code>forestry</code>, <code>forester</code>, <code>silviculture</code>, <code>logging</code>, <code>timber harvest/produc*/manag*</code>, <code>forest manag*/officer/guard/ranger/conser*</code>, <code>tree farm/nursery/planting</code>, <code>agroforestry</code>
+    </div>
+    <p style="font-size:0.74em; color:#888; margin:0.7em 0 0; line-height:1.45;"><strong style="color:#777;">Note:</strong> <code>*</code> indicates wildcard matching, used to capture different morphological variants of a term.</p>
+  </div>
+</div>
+
+<div id="modal-inputs" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10000; align-items:center; justify-content:center;">
+  <div onclick="event.stopPropagation()" style="background:#fff; border-radius:10px; padding:1.5em 2em; max-width:520px; box-shadow:0 8px 30px rgba(0,0,0,0.3); font-family:'Inter',sans-serif;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5em;">
+      <h3 style="margin:0; color:#002244; font-size:1em;">Inputs &amp; Services Keywords</h3>
+      <button onclick="document.getElementById('modal-inputs').style.display='none'" style="background:none; border:none; font-size:1.3em; cursor:pointer; color:#888;">✕</button>
+    </div>
+    <div style="font-size:0.82em; color:#444; line-height:1.7;">
+      <code>agricultural machin*/equip*</code>, <code>tractor</code>, <code>pesticide</code>, <code>fertiliz*</code>, <code>seed supply/compan*/distribut*/produc*</code>, <code>agricultural service</code>, <code>post-harvest</code>, <code>agrochemical</code>, <code>herbicide</code>, <code>fungicide</code>, <code>insecticide</code>, <code>veterinar*</code>, <code>farm machin*/equip*</code>, <code>agri-tech</code>, <code>agricultural input</code>
+    </div>
+    <p style="font-size:0.74em; color:#888; margin:0.7em 0 0; line-height:1.45;"><strong style="color:#777;">Note:</strong> <code>*</code> indicates wildcard matching, used to capture different morphological variants of a term.</p>
+  </div>
+</div>
+
+<div id="modal-processing" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10000; align-items:center; justify-content:center;">
+  <div onclick="event.stopPropagation()" style="background:#fff; border-radius:10px; padding:1.5em 2em; max-width:520px; box-shadow:0 8px 30px rgba(0,0,0,0.3); font-family:'Inter',sans-serif;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5em;">
+      <h3 style="margin:0; color:#002244; font-size:1em;">Processing Keywords</h3>
+      <button onclick="document.getElementById('modal-processing').style.display='none'" style="background:none; border:none; font-size:1.3em; cursor:pointer; color:#888;">✕</button>
+    </div>
+    <div style="font-size:0.82em; color:#444; line-height:1.7;">
+      <code>food process*</code>, <code>food manufactur*</code>, <code>food production</code>, <code>agro-process*</code>, <code>agro-industr*</code>, <code>slaughter</code>, <code>abattoir</code>, <code>bakery/baker</code>, <code>brewery/brewer</code>, <code>grain/flour/oil mill</code>, <code>meat process*</code>, <code>food preserv*</code>, <code>cannery/canning</code>, <code>beverage</code>, <code>dairy process*</code>, <code>sugar factory/mill/process*/refin*</code>, <code>food factory</code>, <code>milling</code>
+    </div>
+    <p style="font-size:0.74em; color:#888; margin:0.7em 0 0; line-height:1.45;"><strong style="color:#777;">Note:</strong> <code>*</code> indicates wildcard matching, used to capture different morphological variants of a term.</p>
+  </div>
+</div>
+
+<div id="modal-trading" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10000; align-items:center; justify-content:center;">
+  <div onclick="event.stopPropagation()" style="background:#fff; border-radius:10px; padding:1.5em 2em; max-width:520px; box-shadow:0 8px 30px rgba(0,0,0,0.3); font-family:'Inter',sans-serif;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5em;">
+      <h3 style="margin:0; color:#002244; font-size:1em;">Trading &amp; Logistics Keywords</h3>
+      <button onclick="document.getElementById('modal-trading').style.display='none'" style="background:none; border:none; font-size:1.3em; cursor:pointer; color:#888;">✕</button>
+    </div>
+    <div style="font-size:0.82em; color:#444; line-height:1.7;">
+      <code>food warehous*</code>, <code>food retail</code>, <code>food wholesale</code>, <code>cold chain</code>, <code>food storage</code>, <code>food distribut*</code>, <code>food transport</code>, <code>food logistic*</code>, <code>food trad*</code>, <code>grocery</code>
+    </div>
+    <p style="font-size:0.74em; color:#888; margin:0.7em 0 0; line-height:1.45;"><strong style="color:#777;">Note:</strong> <code>*</code> indicates wildcard matching, used to capture different morphological variants of a term.</p>
+  </div>
+</div>
+
+<div id="modal-service" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10000; align-items:center; justify-content:center;">
+  <div onclick="event.stopPropagation()" style="background:#fff; border-radius:10px; padding:1.5em 2em; max-width:520px; box-shadow:0 8px 30px rgba(0,0,0,0.3); font-family:'Inter',sans-serif;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5em;">
+      <h3 style="margin:0; color:#002244; font-size:1em;">Food Service Keywords</h3>
+      <button onclick="document.getElementById('modal-service').style.display='none'" style="background:none; border:none; font-size:1.3em; cursor:pointer; color:#888;">✕</button>
+    </div>
+    <div style="font-size:0.82em; color:#444; line-height:1.7;">
+      <code>restaurant</code>, <code>catering</code>, <code>food stall</code>, <code>cafeteria</code>, <code>canteen</code>, <code>food service</code>, <code>chef</code>, <code>cook/cooking</code>, <code>barista</code>, <code>waiter/waitress</code>, <code>kitchen</code>
+    </div>
+    <p style="font-size:0.74em; color:#888; margin:0.7em 0 0; line-height:1.45;"><strong style="color:#777;">Note:</strong> <code>*</code> indicates wildcard matching, used to capture different morphological variants of a term.</p>
+  </div>
+</div>
+
+<div class="wb-logo">WORLD BANK GROUP</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: false,
+    width: 1280,
+    height: 720,
+    margin: 0.08,
+    transition: 'slide',
+    transitionSpeed: 'default',
+    center: false,
+    preloadIframes: false,
+    viewDistance: 3,
+    pdfMaxPagesPerSlide: 1,
+    pdfSeparateFragments: false,
+    plugins: []
+  });
+
+  /* ── Plotly chart resize helpers ──────────────────────────────────────── */
+  function _pingIframe(iframe) {
+    /* 1. postMessage — handled inside each chart's _SELF_RESIZE block */
+    try { iframe.contentWindow.postMessage({type: 'plotly-resize'}, '*'); } catch(e){}
+    /* 2. direct Plotly.Plots.resize — works when same-origin & already loaded */
+    try {
+      var cw = iframe.contentWindow;
+      if (cw && cw.Plotly) {
+        cw.document.querySelectorAll('.js-plotly-plot').forEach(function(el) {
+          try { cw.Plotly.Plots.resize(el); } catch(e){}
+          try { cw.Plotly.relayout(el, {}); } catch(e){}
+        });
+      }
+    } catch(e){}
+  }
+
+  function _pingIframeDelayed(iframe, delays) {
+    delays.forEach(function(t) { setTimeout(function() { _pingIframe(iframe); }, t); });
+  }
+
+  function ensureIframeLoaded(iframe) {
+    if (!iframe || !iframe.dataset || !iframe.dataset.src || iframe.dataset.chartLoaded === "1") return;
+    iframe.dataset.chartLoaded = "1";
+    iframe.src = iframe.dataset.src;
+  }
+
+  function primeSlideCharts(slide) {
+    if (!slide) return;
+    slide.querySelectorAll("iframe[data-src]").forEach(function(iframe) {
+      ensureIframeLoaded(iframe);
+    });
+  }
+
+  function primeNearbySlideCharts() {
+    var idx = Reveal.getIndices();
+    [
+      Reveal.getSlide(idx.h, idx.v),
+      Reveal.getSlide(idx.h + 1, idx.v),
+      Reveal.getSlide(idx.h - 1, idx.v)
+    ].forEach(primeSlideCharts);
+  }
+
+  function refreshActiveSlideCharts() {
+    var current = Reveal.getCurrentSlide();
+    if (!current) return;
+    primeSlideCharts(current);
+    current.querySelectorAll("iframe").forEach(function(iframe) {
+      _pingIframe(iframe);
+      _pingIframeDelayed(iframe, [80, 200, 500, 1000]);
+    });
+  }
+
+  /* attach load-event hook once per iframe so it self-pings on first load */
+  function attachIframeLoadHooks() {
+    document.querySelectorAll("iframe").forEach(function(iframe) {
+      if (iframe.dataset.plotlyHooked) return;
+      iframe.dataset.plotlyHooked = "1";
+      iframe.addEventListener("load", function() {
+        _pingIframeDelayed(iframe, [0, 80, 200, 500, 1000]);
+      });
+    });
+  }
+
+  Reveal.on("ready", function() {
+    attachIframeLoadHooks();
+    primeNearbySlideCharts();
+    [60, 300, 800].forEach(function(t) {
+      setTimeout(refreshActiveSlideCharts, t);
+    });
+  });
+  Reveal.on("slidechanged", function() {
+    attachIframeLoadHooks();
+    primeNearbySlideCharts();
+    [0, 80, 280, 600].forEach(function(t) {
+      setTimeout(refreshActiveSlideCharts, t);
+    });
+  });
+  Reveal.on("slidetransitionend", function() {
+    refreshActiveSlideCharts();
+    setTimeout(refreshActiveSlideCharts, 150);
+  });
+  window.addEventListener("resize", function() {
+    setTimeout(refreshActiveSlideCharts, 80);
+  });
+
+  /* ── Africa mini-map on title slide ── */
+  (function() {
+    // ISO 3166-1 numeric — Africa (continental + Madagascar, no other islands)
+    var AFRICA_IDS = new Set([
+      "012","024","072","108","120","140","148","178",
+      "180","204","226","231","232","262","266","270","288","324",
+      "384","404","426","430","434","450","454","466","478",
+      "504","508","516","562","566","624","646","686",
+      "694","706","710","716","728","729","732","748","768","788","800",
+      "834","854","894","818"
+    ]);
+    var HIGHLIGHT_IDS = new Set(["404","566","800"]); // KEN, NGA, UGA
+
+    var w = 380, h = 580;
+    var svg = d3.select("#africa-map-container")
+      .append("svg")
+      .attr("viewBox", "0 0 " + w + " " + h)
+      .attr("preserveAspectRatio", "xMidYMid meet");
+
+    var proj = d3.geoMercator()
+      .center([20, 1])
+      .scale(350)
+      .translate([w / 2, h / 2]);
+
+    var path = d3.geoPath().projection(proj);
+
+    d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+      .then(function(world) {
+        var all = topojson.feature(world, world.objects.countries).features;
+        var african = all.filter(function(f) { return AFRICA_IDS.has(f.id); });
+
+        svg.selectAll("path")
+          .data(african)
+          .enter().append("path")
+          .attr("d", path)
+          .attr("fill", function(f) {
+            return HIGHLIGHT_IDS.has(f.id) ? "#7CC89B" : "#E8EAED";
+          })
+          .attr("stroke", "#D0D0D0")
+          .attr("stroke-width", 0.5);
+      });
+  })();
+</script>
+</body>
+</html>

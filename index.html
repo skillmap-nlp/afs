@@ -6353,6 +6353,7 @@ window.Quarto = {
   <li><a href="#online-demand-vs.-actual-employment-structure" id="toc-online-demand-vs.-actual-employment-structure" class="nav-link" data-scroll-target="#online-demand-vs.-actual-employment-structure">Online demand vs. actual employment structure</a></li>
   <li><a href="#afs-job-classification" id="toc-afs-job-classification" class="nav-link" data-scroll-target="#afs-job-classification">AFS job classification</a></li>
   <li><a href="#what-occupations-are-inside-afs" id="toc-what-occupations-are-inside-afs" class="nav-link" data-scroll-target="#what-occupations-are-inside-afs">What occupations are inside AFS?</a></li>
+  <li><a href="#employer-concentration-in-afs-demand" id="toc-employer-concentration-in-afs-demand" class="nav-link" data-scroll-target="#employer-concentration-in-afs-demand">Employer concentration in AFS demand</a></li>
   <li><a href="#on-farm-vs-off-farm-monthly-trends" id="toc-on-farm-vs-off-farm-monthly-trends" class="nav-link" data-scroll-target="#on-farm-vs-off-farm-monthly-trends">On-farm vs off-farm: monthly trends</a></li>
   </ul></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
@@ -7666,6 +7667,242 @@ Drill-down: top ISCO 4-digit occupations within each dominant group
 <p style="font-size:0.75rem;color:#94a3b8;margin:0.65rem 0 0 0;">Within-group shares: each percentage refers to the share of the parent ISCO 1-digit group, not of total AFS. Bars share a within-card scale.</p>
 <p>The picture is consistent with the broader narrative. Online AFS demand is <strong>anchored by two professional roles — farm/plantation managers and field agronomists/extension officers</strong> — that together account for roughly a quarter of all AFS postings observed in the data. Around this anchor sit complementary functions: agricultural finance and trading (credit officers, sales reps, buyers), agricultural research and education (university teachers, environmental and chemical engineers), and downstream food quality and processing roles (food graders, butchers, fumigators). The typical agricultural labourer — the role that dominates actual employment — appears almost exclusively under ISCO 6 and is barely visible at scale, reinforcing the selection-bias caveat applied throughout the report.</p>
 <p>Source: Authors’ calculations from Lightcast 2021–2023, AFS-tagged postings (N = 19,392).</p>
+</div>
+</section>
+<section id="employer-concentration-in-afs-demand" class="level2">
+<h2 class="anchored" data-anchor-id="employer-concentration-in-afs-demand">Employer concentration in AFS demand</h2>
+<div class="section-card">
+<p style="font-size:1rem;font-weight:700;color:#0f172a;margin:0 0 0.5rem 0;">
+How many distinct employers are behind AFS postings, and how concentrated is the demand?
+</p>
+<p>A complementary structural lens on AFS demand is who actually posts the jobs. For each country and segment we measure concentration on the Herfindahl–Hirschman Index (<a href="https://www.justice.gov/atr/herfindahl-hirschman-index">HHI</a>) — the sum of squared employer shares of postings, scaled to 0–10,000 — together with the share of postings concentrated in the largest one and five employers (CR1, CR5). We exclude Lightcast’s <em>Unclassified</em> placeholder, which is a missing-employer label rather than a real firm.</p>
+<p><span class="math display">\[
+\text{HHI}_s = 10{,}000 \cdot \sum_{i \in s} \left(\frac{n_i}{N_s}\right)^2
+\]</span></p>
+<p>where <span class="math inline">\(n_i\)</span> is the number of postings by employer <span class="math inline">\(i\)</span> in segment <span class="math inline">\(s\)</span>, and <span class="math inline">\(N_s\)</span> is the total number of postings in that segment. Lower HHI means demand is spread across many small employers; higher HHI means a few big employers dominate. The reciprocal <span class="math inline">\(10{,}000 / \text{HHI}\)</span> is the <em>effective number of employers</em> — a quick benchmark for how diversified each segment is.</p>
+<div id="afs-empconc" class="afs-empconc-widget"></div>
+<style>
+.afs-empconc-widget { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; max-width: 920px; margin-top: 12px; }
+.afs-empconc-widget .empc-title { font-weight: 700; font-size: 14px; color: #0f172a; margin: 14px 0 4px 0; }
+.afs-empconc-widget .empc-sub { font-size: 12px; color: #64748b; margin-bottom: 10px; }
+.afs-empconc-widget .empc-toggle { display: flex; gap: 0; margin: 10px 0 14px 0; }
+.afs-empconc-widget .empc-btn {
+padding: 6px 18px; font-size: 12px; font-weight: 500; cursor: pointer;
+border: 1px solid #cbd5e1; background: #fff; color: #475569;
+font-family: inherit; transition: all .15s;
+}
+.afs-empconc-widget .empc-btn:first-child { border-radius: 6px 0 0 6px; }
+.afs-empconc-widget .empc-btn:last-child { border-radius: 0 6px 6px 0; border-left: none; }
+.afs-empconc-widget .empc-btn + .empc-btn:not(:last-child) { border-left: none; }
+.afs-empconc-widget .empc-btn.active { background: #0f172a; color: #fff; font-weight: 700; }
+.afs-empconc-widget .empc-row {
+display: grid; grid-template-columns: 240px 1fr 56px 64px;
+gap: 10px; align-items: center; padding: 3px 0;
+font-size: 12px;
+}
+.afs-empconc-widget .empc-row-lbl { color: #0f172a; font-weight: 500; }
+.afs-empconc-widget .empc-row-lbl.afs { color: #1d4ed8; font-weight: 700; }
+.afs-empconc-widget .empc-row-lbl.nonafs { color: #64748b; font-weight: 600; font-style: italic; }
+.afs-empconc-widget .empc-row-bar {
+height: 16px; background: #f1f5f9; border-radius: 4px;
+position: relative; overflow: hidden;
+}
+.afs-empconc-widget .empc-row-bar > div { height: 100%; border-radius: 4px; }
+.afs-empconc-widget .empc-row-hhi {
+text-align: right; font-weight: 700; color: #0f172a;
+font-variant-numeric: tabular-nums; font-size: 12px;
+}
+.afs-empconc-widget .empc-row-cr {
+text-align: right; font-size: 11px; color: #64748b;
+font-variant-numeric: tabular-nums;
+}
+.afs-empconc-widget .empc-card {
+background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+padding: 0.9rem 1.1rem; margin-top: 14px;
+}
+.afs-empconc-widget .empc-card-head {
+display: flex; justify-content: space-between; align-items: baseline;
+border-bottom: 1px solid #e2e8f0; padding-bottom: 0.45rem; margin-bottom: 0.55rem;
+}
+.afs-empconc-widget .empc-card-title { font-weight: 700; color: #0f172a; font-size: 0.93rem; }
+.afs-empconc-widget .empc-card-stats { font-size: 0.74rem; color: #64748b; font-variant-numeric: tabular-nums; }
+.afs-empconc-widget .empc-card-stats b { color: #0f172a; font-weight: 700; }
+.afs-empconc-widget .empc-emp-row {
+display: grid; grid-template-columns: 1.6rem 1fr 4rem 3rem;
+gap: 0.5rem; padding: 0.25rem 0; font-size: 0.82rem;
+border-bottom: 1px solid #f1f5f9; align-items: center;
+}
+.afs-empconc-widget .empc-emp-row:last-child { border-bottom: none; }
+.afs-empconc-widget .empc-emp-rank { color: #94a3b8; font-weight: 700; font-variant-numeric: tabular-nums; }
+.afs-empconc-widget .empc-emp-name { color: #0f172a; }
+.afs-empconc-widget .empc-emp-bar { background: #e2e8f0; height: 6px; border-radius: 99px; position: relative; }
+.afs-empconc-widget .empc-emp-bar > div { height: 100%; border-radius: 99px; background: #1d4ed8; }
+.afs-empconc-widget .empc-emp-share {
+font-weight: 700; color: #1d4ed8; font-variant-numeric: tabular-nums;
+text-align: right; font-size: 0.82rem;
+}
+.afs-empconc-widget .empc-footnote { margin-top: 10px; font-size: 10px; color: #94a3b8; line-height: 1.6; }
+</style>
+<script>
+(function () {
+  const DATA = {"KE":{"country":"Kenya","segments":{"AFS":{"label":"Agri-food system (AFS)","n_postings":3800,"n_employers":633,"hhi":94.3,"effective_N":106.0,"cr1_%":3.47,"cr5_%":15.13,"cr10_%":23.71,"avg_postings_per_employer":6.0,"top_employers":[{"name":"International Livestock Research Institute (Ilri)","n":132,"share_%":3.47},{"name":"Summit Recruitment & Search Ltd","n":126,"share_%":3.32},{"name":"Kenya Forest Service","n":117,"share_%":3.08},{"name":"Rainforest Alliance","n":102,"share_%":2.68},{"name":"Jomo Kenyatta University Of Agriculture And Technology","n":98,"share_%":2.58}]},"NON_AFS":{"label":"All other postings (non-AFS)","n_postings":216818,"n_employers":12977,"hhi":31.6,"effective_N":316.8,"cr1_%":2.54,"cr5_%":8.82,"cr10_%":13.08,"avg_postings_per_employer":16.71,"top_employers":[{"name":"Corporate Staffing Services","n":5518,"share_%":2.54},{"name":"FuZu","n":4288,"share_%":1.98},{"name":"Summit Recruitment & Search Ltd","n":3864,"share_%":1.78},{"name":"ReliefWeb","n":2908,"share_%":1.34},{"name":"International Rescue Committee","n":2543,"share_%":1.17}]},"NACE_C":{"label":"NACE C \u00b7 Manufacturing","n_postings":4246,"n_employers":1255,"hhi":61.9,"effective_N":161.4,"cr1_%":2.76,"cr5_%":12.34,"cr10_%":20.3,"avg_postings_per_employer":3.38,"top_employers":[{"name":"Accor Group","n":117,"share_%":2.76},{"name":"Corporate Staffing Services","n":116,"share_%":2.73},{"name":"Marriott International","n":106,"share_%":2.5},{"name":"Summit Recruitment & Search Ltd","n":94,"share_%":2.21},{"name":"Advance Africa Ltd","n":91,"share_%":2.14}]},"NACE_D":{"label":"NACE D \u00b7 Electricity, gas & steam","n_postings":832,"n_employers":224,"hhi":329.3,"effective_N":30.4,"cr1_%":15.02,"cr5_%":28.49,"cr10_%":37.5,"avg_postings_per_employer":3.71,"top_employers":[{"name":"Wts Energy","n":125,"share_%":15.02},{"name":"Altgen","n":41,"share_%":4.93},{"name":"ManpowerGroup","n":28,"share_%":3.37},{"name":"ENGIE","n":22,"share_%":2.64},{"name":"Crossboundary","n":21,"share_%":2.52}]},"NACE_E":{"label":"NACE E \u00b7 Water supply & waste","n_postings":299,"n_employers":118,"hhi":271.5,"effective_N":36.8,"cr1_%":9.7,"cr5_%":28.43,"cr10_%":40.47,"avg_postings_per_employer":2.53,"top_employers":[{"name":"AECOM","n":29,"share_%":9.7},{"name":"Takataka Solutions","n":21,"share_%":7.02},{"name":"Sanergy","n":16,"share_%":5.35},{"name":"ENGIE","n":10,"share_%":3.34},{"name":"ReliefWeb","n":9,"share_%":3.01}]},"NACE_F":{"label":"NACE F \u00b7 Construction","n_postings":652,"n_employers":325,"hhi":61.4,"effective_N":162.8,"cr1_%":2.3,"cr5_%":9.66,"cr10_%":15.34,"avg_postings_per_employer":2.01,"top_employers":[{"name":"Arc Group","n":15,"share_%":2.3},{"name":"Summit Recruitment & Search Ltd","n":15,"share_%":2.3},{"name":"Hire Resolve","n":14,"share_%":2.15},{"name":"FuZu","n":10,"share_%":1.53},{"name":"Unity Homes","n":9,"share_%":1.38}]},"NACE_G":{"label":"NACE G \u00b7 Wholesale & retail trade","n_postings":5715,"n_employers":1512,"hhi":127.0,"effective_N":78.7,"cr1_%":8.38,"cr5_%":19.62,"cr10_%":26.53,"avg_postings_per_employer":3.78,"top_employers":[{"name":"Corporate Staffing Services","n":479,"share_%":8.38},{"name":"Sunculture Kenya Ltd.","n":198,"share_%":3.46},{"name":"Summit Recruitment & Search Ltd","n":176,"share_%":3.08},{"name":"Corporate Staffing","n":147,"share_%":2.57},{"name":"FuZu","n":121,"share_%":2.12}]},"NACE_H":{"label":"NACE H \u00b7 Transport & storage","n_postings":856,"n_employers":392,"hhi":75.1,"effective_N":133.2,"cr1_%":4.44,"cr5_%":12.15,"cr10_%":18.69,"avg_postings_per_employer":2.18,"top_employers":[{"name":"Kenya Railways","n":38,"share_%":4.44},{"name":"Corporate Staffing Services","n":22,"share_%":2.57},{"name":"Sokowatch (Formerly Reliefwatch)","n":17,"share_%":1.99},{"name":"Summit Recruitment & Search Ltd","n":14,"share_%":1.64},{"name":"Amazon","n":13,"share_%":1.52}]},"NACE_I":{"label":"NACE I \u00b7 Accommodation & food service","n_postings":1265,"n_employers":437,"hhi":130.6,"effective_N":76.6,"cr1_%":5.69,"cr5_%":20.24,"cr10_%":28.93,"avg_postings_per_employer":2.89,"top_employers":[{"name":"Accor Group","n":72,"share_%":5.69},{"name":"Fairmont Hotels & Resorts","n":60,"share_%":4.74},{"name":"M Gallery","n":51,"share_%":4.03},{"name":"Corporate Staffing Services","n":38,"share_%":3.0},{"name":"Marriott International","n":35,"share_%":2.77}]},"NACE_J":{"label":"NACE J \u00b7 Information & communication","n_postings":20455,"n_employers":3422,"hhi":38.1,"effective_N":262.6,"cr1_%":2.86,"cr5_%":9.49,"cr10_%":13.93,"avg_postings_per_employer":5.98,"top_employers":[{"name":"FuZu","n":585,"share_%":2.86},{"name":"Corporate Staffing Services","n":542,"share_%":2.65},{"name":"Summit Recruitment & Search Ltd","n":334,"share_%":1.63},{"name":"Canonical Group","n":245,"share_%":1.2},{"name":"International Rescue Committee","n":236,"share_%":1.15}]},"NACE_K":{"label":"NACE K \u00b7 Finance & insurance","n_postings":8464,"n_employers":1380,"hhi":101.2,"effective_N":98.8,"cr1_%":3.8,"cr5_%":15.75,"cr10_%":25.74,"avg_postings_per_employer":6.13,"top_employers":[{"name":"FuZu","n":322,"share_%":3.8},{"name":"Ncba Group","n":295,"share_%":3.49},{"name":"I&M Bank","n":250,"share_%":2.95},{"name":"Absa Bank","n":246,"share_%":2.91},{"name":"Corporate Staffing Services","n":220,"share_%":2.6}]},"NACE_L":{"label":"NACE L \u00b7 Real estate","n_postings":1118,"n_employers":365,"hhi":155.8,"effective_N":64.2,"cr1_%":5.81,"cr5_%":21.91,"cr10_%":32.65,"avg_postings_per_employer":3.06,"top_employers":[{"name":"Cytonn Investments","n":65,"share_%":5.81},{"name":"Corporate Staffing Services","n":64,"share_%":5.72},{"name":"Summit Recruitment & Search Ltd","n":41,"share_%":3.67},{"name":"Brites Management Services","n":38,"share_%":3.4},{"name":"Optiven Limited","n":37,"share_%":3.31}]},"NACE_M":{"label":"NACE M \u00b7 Professional, scientific & technical","n_postings":14416,"n_employers":2668,"hhi":44.6,"effective_N":224.1,"cr1_%":3.02,"cr5_%":10.66,"cr10_%":15.87,"avg_postings_per_employer":5.4,"top_employers":[{"name":"Corporate Staffing Services","n":435,"share_%":3.02},{"name":"FuZu","n":385,"share_%":2.67},{"name":"Plan|B","n":266,"share_%":1.85},{"name":"Summit Recruitment & Search Ltd","n":251,"share_%":1.74},{"name":"Unep","n":200,"share_%":1.39}]},"NACE_N":{"label":"NACE N \u00b7 Administrative & support","n_postings":4340,"n_employers":1400,"hhi":59.0,"effective_N":169.4,"cr1_%":4.06,"cr5_%":13.13,"cr10_%":18.64,"avg_postings_per_employer":3.1,"top_employers":[{"name":"Summit Recruitment & Search Ltd","n":176,"share_%":4.06},{"name":"Corporate Staffing Services","n":151,"share_%":3.48},{"name":"Teachers Service Commission","n":102,"share_%":2.35},{"name":"FuZu","n":77,"share_%":1.77},{"name":"Flexi Personnel","n":64,"share_%":1.47}]},"NACE_O":{"label":"NACE O \u00b7 Public administration","n_postings":3421,"n_employers":677,"hhi":135.2,"effective_N":74.0,"cr1_%":6.46,"cr5_%":19.67,"cr10_%":29.64,"avg_postings_per_employer":5.05,"top_employers":[{"name":"Unicef","n":221,"share_%":6.46},{"name":"World Food Programme","n":170,"share_%":4.97},{"name":"International Organization For Migration","n":103,"share_%":3.01},{"name":"United Nations","n":99,"share_%":2.89},{"name":"Unep","n":80,"share_%":2.34}]},"NACE_P":{"label":"NACE P \u00b7 Education","n_postings":1514,"n_employers":372,"hhi":401.4,"effective_N":24.9,"cr1_%":13.28,"cr5_%":34.08,"cr10_%":42.73,"avg_postings_per_employer":4.07,"top_employers":[{"name":"Teachers Service Commission","n":201,"share_%":13.28},{"name":"Laikipia University","n":197,"share_%":13.01},{"name":"Kenya Revenue Authority","n":44,"share_%":2.91},{"name":"Nova Pioneer","n":44,"share_%":2.91},{"name":"Machakos Institute Of Technology","n":30,"share_%":1.98}]},"NACE_Q":{"label":"NACE Q \u00b7 Human health & social work","n_postings":3072,"n_employers":815,"hhi":101.5,"effective_N":98.5,"cr1_%":7.32,"cr5_%":15.43,"cr10_%":21.97,"avg_postings_per_employer":3.77,"top_employers":[{"name":"Aga Khan University Hospital","n":225,"share_%":7.32},{"name":"Corporate Staffing Services","n":79,"share_%":2.57},{"name":"International Rescue Committee","n":66,"share_%":2.15},{"name":"Kenyatta National Hospital","n":54,"share_%":1.76},{"name":"FedEx","n":50,"share_%":1.63}]},"NACE_R":{"label":"NACE R \u00b7 Arts & recreation","n_postings":1984,"n_employers":700,"hhi":58.2,"effective_N":171.9,"cr1_%":2.22,"cr5_%":9.93,"cr10_%":17.69,"avg_postings_per_employer":2.83,"top_employers":[{"name":"Marriott International","n":44,"share_%":2.22},{"name":"British Council","n":43,"share_%":2.17},{"name":"Aar Healthcare Kenya Limited","n":42,"share_%":2.12},{"name":"Valiant Integrated Services","n":34,"share_%":1.71},{"name":"Kuhustle","n":34,"share_%":1.71}]},"NACE_S":{"label":"NACE S \u00b7 Other services","n_postings":729,"n_employers":277,"hhi":426.5,"effective_N":23.4,"cr1_%":18.52,"cr5_%":31.82,"cr10_%":40.74,"avg_postings_per_employer":2.63,"top_employers":[{"name":"Laikipia University","n":135,"share_%":18.52},{"name":"Empowered Consumerism International Corporation","n":28,"share_%":3.84},{"name":"Kenya Red Cross Society","n":27,"share_%":3.7},{"name":"Go Volunteer Africa","n":22,"share_%":3.02},{"name":"Corporate Staffing Services","n":20,"share_%":2.74}]}}},"NG":{"country":"Nigeria","segments":{"AFS":{"label":"Agri-food system (AFS)","n_postings":3137,"n_employers":730,"hhi":156.9,"effective_N":63.8,"cr1_%":8.96,"cr5_%":22.38,"cr10_%":28.88,"avg_postings_per_employer":4.3,"top_employers":[{"name":"Hotnigerianjobs","n":281,"share_%":8.96},{"name":"Sayed Farms Ltd.","n":154,"share_%":4.91},{"name":"International Institute Of Tropical Agriculture (Iita)","n":110,"share_%":3.51},{"name":"Jobgurus Services","n":92,"share_%":2.93},{"name":"Jubaili Agrotec","n":65,"share_%":2.07}]},"NON_AFS":{"label":"All other postings (non-AFS)","n_postings":362444,"n_employers":21549,"hhi":27.2,"effective_N":367.8,"cr1_%":3.49,"cr5_%":8.68,"cr10_%":11.48,"avg_postings_per_employer":16.82,"top_employers":[{"name":"Hotnigerianjobs","n":12639,"share_%":3.49},{"name":"Jobgurus Services","n":7300,"share_%":2.01},{"name":"Ascentech Services Ltd","n":4799,"share_%":1.32},{"name":"Dangote Group","n":3362,"share_%":0.93},{"name":"Careersome","n":3346,"share_%":0.92}]},"NACE_C":{"label":"NACE C \u00b7 Manufacturing","n_postings":7486,"n_employers":1934,"hhi":56.2,"effective_N":178.1,"cr1_%":3.21,"cr5_%":13.38,"cr10_%":18.78,"avg_postings_per_employer":3.87,"top_employers":[{"name":"Marriott International","n":240,"share_%":3.21},{"name":"Ascentech Services Ltd","n":228,"share_%":3.05},{"name":"Dangote Group","n":222,"share_%":2.97},{"name":"Hotnigerianjobs","n":201,"share_%":2.69},{"name":"Jobgurus Services","n":111,"share_%":1.48}]},"NACE_D":{"label":"NACE D \u00b7 Electricity, gas & steam","n_postings":6646,"n_employers":932,"hhi":190.5,"effective_N":52.5,"cr1_%":7.3,"cr5_%":26.27,"cr10_%":36.7,"avg_postings_per_employer":7.13,"top_employers":[{"name":"Spie","n":485,"share_%":7.3},{"name":"Hotnigerianjobs","n":435,"share_%":6.55},{"name":"SPIE Personalmanagement","n":325,"share_%":4.89},{"name":"Amaiden Energy Nigeria Limited","n":263,"share_%":3.96},{"name":"Wts Energy","n":238,"share_%":3.58}]},"NACE_E":{"label":"NACE E \u00b7 Water supply & waste","n_postings":292,"n_employers":135,"hhi":285.2,"effective_N":35.1,"cr1_%":9.93,"cr5_%":30.14,"cr10_%":40.75,"avg_postings_per_employer":2.16,"top_employers":[{"name":"AECOM","n":29,"share_%":9.93},{"name":"Altara Credit","n":27,"share_%":9.25},{"name":"Dangote Group","n":14,"share_%":4.79},{"name":"ENGIE","n":9,"share_%":3.08},{"name":"The Future Edge","n":9,"share_%":3.08}]},"NACE_F":{"label":"NACE F \u00b7 Construction","n_postings":1345,"n_employers":576,"hhi":45.1,"effective_N":221.6,"cr1_%":2.53,"cr5_%":7.81,"cr10_%":13.38,"avg_postings_per_employer":2.34,"top_employers":[{"name":"Jobgurus Services","n":34,"share_%":2.53},{"name":"Ideal Educonsult","n":20,"share_%":1.49},{"name":"Hotnigerianjobs","n":18,"share_%":1.34},{"name":"Dangote Group","n":17,"share_%":1.26},{"name":"Ascentech Services Ltd","n":16,"share_%":1.19}]},"NACE_G":{"label":"NACE G \u00b7 Wholesale & retail trade","n_postings":15855,"n_employers":3923,"hhi":28.8,"effective_N":347.3,"cr1_%":3.13,"cr5_%":7.98,"cr10_%":11.45,"avg_postings_per_employer":4.04,"top_employers":[{"name":"Ascentech Services Ltd","n":497,"share_%":3.13},{"name":"Hotnigerianjobs","n":309,"share_%":1.95},{"name":"Jobgurus Services","n":180,"share_%":1.14},{"name":"Jobberman.Com","n":145,"share_%":0.91},{"name":"Fairmoney","n":134,"share_%":0.85}]},"NACE_H":{"label":"NACE H \u00b7 Transport & storage","n_postings":1655,"n_employers":785,"hhi":36.9,"effective_N":271.2,"cr1_%":2.48,"cr5_%":8.16,"cr10_%":12.63,"avg_postings_per_employer":2.11,"top_employers":[{"name":"Dangote Group","n":41,"share_%":2.48},{"name":"Hotnigerianjobs","n":26,"share_%":1.57},{"name":"Jobgurus Services","n":26,"share_%":1.57},{"name":"Ascentech Services Ltd","n":22,"share_%":1.33},{"name":"Randstad","n":20,"share_%":1.21}]},"NACE_I":{"label":"NACE I \u00b7 Accommodation & food service","n_postings":2666,"n_employers":1090,"hhi":49.7,"effective_N":201.0,"cr1_%":3.68,"cr5_%":12.57,"cr10_%":16.54,"avg_postings_per_employer":2.45,"top_employers":[{"name":"Sundry Foods Limited","n":98,"share_%":3.68},{"name":"Hotnigerianjobs","n":72,"share_%":2.7},{"name":"Hilton","n":62,"share_%":2.33},{"name":"Marriott International","n":57,"share_%":2.14},{"name":"Jobgurus Services","n":46,"share_%":1.73}]},"NACE_J":{"label":"NACE J \u00b7 Information & communication","n_postings":35135,"n_employers":6408,"hhi":23.9,"effective_N":417.6,"cr1_%":2.26,"cr5_%":8.1,"cr10_%":11.44,"avg_postings_per_employer":5.48,"top_employers":[{"name":"Hotnigerianjobs","n":795,"share_%":2.26},{"name":"Jobgurus Services","n":649,"share_%":1.85},{"name":"Worley","n":499,"share_%":1.42},{"name":"Careersome","n":491,"share_%":1.4},{"name":"Ascentech Services Ltd","n":411,"share_%":1.17}]},"NACE_K":{"label":"NACE K \u00b7 Finance & insurance","n_postings":13420,"n_employers":2439,"hhi":61.4,"effective_N":162.9,"cr1_%":4.75,"cr5_%":12.98,"cr10_%":17.76,"avg_postings_per_employer":5.5,"top_employers":[{"name":"Hotnigerianjobs","n":637,"share_%":4.75},{"name":"Stanbic Ibtc","n":339,"share_%":2.53},{"name":"First Bank Of Nigeria Plc","n":323,"share_%":2.41},{"name":"Jobgurus Services","n":294,"share_%":2.19},{"name":"Ascentech Services Ltd","n":149,"share_%":1.11}]},"NACE_L":{"label":"NACE L \u00b7 Real estate","n_postings":4655,"n_employers":987,"hhi":74.6,"effective_N":134.0,"cr1_%":5.26,"cr5_%":14.39,"cr10_%":19.42,"avg_postings_per_employer":4.72,"top_employers":[{"name":"Hotnigerianjobs","n":245,"share_%":5.26},{"name":"Jobgurus Services","n":129,"share_%":2.77},{"name":"Mshel Homes Limited","n":119,"share_%":2.56},{"name":"Adron Homes And Properties","n":110,"share_%":2.36},{"name":"Sujimoto Construction Ltd","n":67,"share_%":1.44}]},"NACE_M":{"label":"NACE M \u00b7 Professional, scientific & technical","n_postings":23259,"n_employers":4857,"hhi":31.9,"effective_N":313.7,"cr1_%":2.4,"cr5_%":9.67,"cr10_%":14.0,"avg_postings_per_employer":4.79,"top_employers":[{"name":"Jobgurus Services","n":559,"share_%":2.4},{"name":"Hotnigerianjobs","n":521,"share_%":2.24},{"name":"Plan|B","n":497,"share_%":2.14},{"name":"Ascentech Services Ltd","n":368,"share_%":1.58},{"name":"Dangote Group","n":303,"share_%":1.3}]},"NACE_N":{"label":"NACE N \u00b7 Administrative & support","n_postings":7830,"n_employers":2316,"hhi":35.4,"effective_N":282.8,"cr1_%":3.1,"cr5_%":10.04,"cr10_%":13.81,"avg_postings_per_employer":3.38,"top_employers":[{"name":"Hotnigerianjobs","n":243,"share_%":3.1},{"name":"Jobgurus Services","n":148,"share_%":1.89},{"name":"Ellasot Consulting","n":145,"share_%":1.85},{"name":"Ascentech Services Ltd","n":131,"share_%":1.67},{"name":"Careersome","n":119,"share_%":1.52}]},"NACE_O":{"label":"NACE O \u00b7 Public administration","n_postings":3567,"n_employers":867,"hhi":132.2,"effective_N":75.7,"cr1_%":8.47,"cr5_%":18.67,"cr10_%":25.71,"avg_postings_per_employer":4.11,"top_employers":[{"name":"Unicef","n":302,"share_%":8.47},{"name":"Dansk Flygtningehjaelp","n":110,"share_%":3.08},{"name":"Jobgurus Services","n":101,"share_%":2.83},{"name":"International Organization For Migration","n":98,"share_%":2.75},{"name":"FHI 360","n":55,"share_%":1.54}]},"NACE_P":{"label":"NACE P \u00b7 Education","n_postings":2239,"n_employers":685,"hhi":639.5,"effective_N":15.6,"cr1_%":23.89,"cr5_%":35.51,"cr10_%":41.05,"avg_postings_per_employer":3.27,"top_employers":[{"name":"Hotnigerianjobs","n":535,"share_%":23.89},{"name":"Olist","n":147,"share_%":6.57},{"name":"Greensprings School, Nigeria","n":40,"share_%":1.79},{"name":"Jobgurus Services","n":39,"share_%":1.74},{"name":"Careersome","n":34,"share_%":1.52}]},"NACE_Q":{"label":"NACE Q \u00b7 Human health & social work","n_postings":3864,"n_employers":991,"hhi":78.4,"effective_N":127.5,"cr1_%":3.49,"cr5_%":14.39,"cr10_%":22.46,"avg_postings_per_employer":3.9,"top_employers":[{"name":"Society For Family Health Nigeria","n":135,"share_%":3.49},{"name":"Jobgurus Services","n":119,"share_%":3.08},{"name":"Hotnigerianjobs","n":115,"share_%":2.98},{"name":"Eha Clinics","n":104,"share_%":2.69},{"name":"Health Careers in Saskatchewan","n":83,"share_%":2.15}]},"NACE_R":{"label":"NACE R \u00b7 Arts & recreation","n_postings":5882,"n_employers":1579,"hhi":142.6,"effective_N":70.1,"cr1_%":7.53,"cr5_%":21.59,"cr10_%":32.74,"avg_postings_per_employer":3.73,"top_employers":[{"name":"Marriott International","n":443,"share_%":7.53},{"name":"Hotnigerianjobs","n":209,"share_%":3.55},{"name":"Canonical Group","n":208,"share_%":3.54},{"name":"Kuda Technologies Limited","n":207,"share_%":3.52},{"name":"British Council","n":203,"share_%":3.45}]},"NACE_S":{"label":"NACE S \u00b7 Other services","n_postings":1344,"n_employers":648,"hhi":37.2,"effective_N":268.6,"cr1_%":1.64,"cr5_%":7.37,"cr10_%":12.5,"avg_postings_per_employer":2.07,"top_employers":[{"name":"Inter-arc Consultants Ltd","n":22,"share_%":1.64},{"name":"Teamace.Org","n":20,"share_%":1.49},{"name":"Olist","n":20,"share_%":1.49},{"name":"Ascentech Services Ltd","n":19,"share_%":1.41},{"name":"Tempkers Jobs","n":18,"share_%":1.34}]}}},"UG":{"country":"Uganda","segments":{"AFS":{"label":"Agri-food system (AFS)","n_postings":947,"n_employers":272,"hhi":135.6,"effective_N":73.7,"cr1_%":4.96,"cr5_%":18.9,"cr10_%":29.14,"avg_postings_per_employer":3.48,"top_employers":[{"name":"Ministry Of Local Government (Molg)","n":47,"share_%":4.96},{"name":"Snv","n":41,"share_%":4.33},{"name":"Ministry Of Agriculture, Animal Industry And Fisheries","n":35,"share_%":3.7},{"name":"Mercy Corps","n":33,"share_%":3.48},{"name":"World Food Programme","n":23,"share_%":2.43}]},"NON_AFS":{"label":"All other postings (non-AFS)","n_postings":58508,"n_employers":4279,"hhi":43.9,"effective_N":228.0,"cr1_%":3.24,"cr5_%":10.32,"cr10_%":15.44,"avg_postings_per_employer":13.67,"top_employers":[{"name":"International Rescue Committee","n":1895,"share_%":3.24},{"name":"World Vision","n":1361,"share_%":2.33},{"name":"United Nations","n":1192,"share_%":2.04},{"name":"Save The Children","n":837,"share_%":1.43},{"name":"FuZu","n":755,"share_%":1.29}]},"NACE_C":{"label":"NACE C \u00b7 Manufacturing","n_postings":742,"n_employers":338,"hhi":106.1,"effective_N":94.2,"cr1_%":5.66,"cr5_%":16.44,"cr10_%":23.58,"avg_postings_per_employer":2.2,"top_employers":[{"name":"Mota-Engil","n":42,"share_%":5.66},{"name":"Eraco International","n":38,"share_%":5.12},{"name":"Education Development Center","n":15,"share_%":2.02},{"name":"Fluor","n":14,"share_%":1.89},{"name":"Total Limited","n":13,"share_%":1.75}]},"NACE_D":{"label":"NACE D \u00b7 Electricity, gas & steam","n_postings":782,"n_employers":115,"hhi":391.6,"effective_N":25.5,"cr1_%":8.95,"cr5_%":36.45,"cr10_%":56.01,"avg_postings_per_employer":6.8,"top_employers":[{"name":"TotalEnergies","n":70,"share_%":8.95},{"name":"ENGIE","n":58,"share_%":7.42},{"name":"Total Limited","n":58,"share_%":7.42},{"name":"McDermott","n":52,"share_%":6.65},{"name":"Petroleum Authority Of Uganda","n":47,"share_%":6.01}]},"NACE_F":{"label":"NACE F \u00b7 Construction","n_postings":324,"n_employers":117,"hhi":830.7,"effective_N":12.0,"cr1_%":25.93,"cr5_%":43.83,"cr10_%":51.85,"avg_postings_per_employer":2.77,"top_employers":[{"name":"Tbi Us","n":84,"share_%":25.93},{"name":"Mota-Engil","n":31,"share_%":9.57},{"name":"National Housing & Construction Co. Ltd","n":13,"share_%":4.01},{"name":"China Railway Construction Group","n":7,"share_%":2.16},{"name":"Innovation: Africa","n":7,"share_%":2.16}]},"NACE_G":{"label":"NACE G \u00b7 Wholesale & retail trade","n_postings":956,"n_employers":431,"hhi":77.7,"effective_N":128.7,"cr1_%":3.77,"cr5_%":14.33,"cr10_%":21.76,"avg_postings_per_employer":2.22,"top_employers":[{"name":"Premier Credit","n":36,"share_%":3.77},{"name":"Platinum Credit Pte Ltd","n":30,"share_%":3.14},{"name":"M-Kopa Solar","n":28,"share_%":2.93},{"name":"Jumia Uganda","n":25,"share_%":2.62},{"name":"Africawork","n":18,"share_%":1.88}]},"NACE_I":{"label":"NACE I \u00b7 Accommodation & food service","n_postings":232,"n_employers":105,"hhi":271.6,"effective_N":36.8,"cr1_%":9.05,"cr5_%":28.45,"cr10_%":44.4,"avg_postings_per_employer":2.21,"top_employers":[{"name":"Red Circle Agency","n":21,"share_%":9.05},{"name":"Africawork","n":14,"share_%":6.03},{"name":"Ericsson","n":11,"share_%":4.74},{"name":"Latitude Trade","n":10,"share_%":4.31},{"name":"Ministry Of Local Government (Molg)","n":10,"share_%":4.31}]},"NACE_J":{"label":"NACE J \u00b7 Information & communication","n_postings":5227,"n_employers":1217,"hhi":51.7,"effective_N":193.5,"cr1_%":3.25,"cr5_%":10.6,"cr10_%":16.89,"avg_postings_per_employer":4.29,"top_employers":[{"name":"Red Circle Agency","n":170,"share_%":3.25},{"name":"Save The Children","n":111,"share_%":2.12},{"name":"World Vision","n":99,"share_%":1.89},{"name":"The Qed Group","n":97,"share_%":1.86},{"name":"United Nations","n":77,"share_%":1.47}]},"NACE_K":{"label":"NACE K \u00b7 Finance & insurance","n_postings":2273,"n_employers":513,"hhi":111.3,"effective_N":89.8,"cr1_%":4.53,"cr5_%":17.42,"cr10_%":26.53,"avg_postings_per_employer":4.43,"top_employers":[{"name":"Dfcu Bank","n":103,"share_%":4.53},{"name":"Absa Bank Limited","n":93,"share_%":4.09},{"name":"Stanbic Bank","n":69,"share_%":3.04},{"name":"Kcb Bank","n":68,"share_%":2.99},{"name":"Postbank Uganda Ltd","n":63,"share_%":2.77}]},"NACE_M":{"label":"NACE M \u00b7 Professional, scientific & technical","n_postings":4615,"n_employers":1020,"hhi":66.6,"effective_N":150.2,"cr1_%":3.58,"cr5_%":13.17,"cr10_%":19.54,"avg_postings_per_employer":4.52,"top_employers":[{"name":"Plan|B","n":165,"share_%":3.58},{"name":"International Rescue Committee","n":148,"share_%":3.21},{"name":"World Vision","n":117,"share_%":2.54},{"name":"Absa Bank Limited","n":95,"share_%":2.06},{"name":"Unicef","n":83,"share_%":1.8}]},"NACE_N":{"label":"NACE N \u00b7 Administrative & support","n_postings":744,"n_employers":363,"hhi":68.9,"effective_N":145.2,"cr1_%":3.23,"cr5_%":11.16,"cr10_%":18.01,"avg_postings_per_employer":2.05,"top_employers":[{"name":"International Rescue Committee","n":24,"share_%":3.23},{"name":"Huawei","n":20,"share_%":2.69},{"name":"Coca-Cola Beverages Africa","n":14,"share_%":1.88},{"name":"The Coca-Cola Company","n":13,"share_%":1.75},{"name":"Ivanti","n":12,"share_%":1.61}]},"NACE_O":{"label":"NACE O \u00b7 Public administration","n_postings":1971,"n_employers":392,"hhi":390.8,"effective_N":25.6,"cr1_%":15.98,"cr5_%":35.01,"cr10_%":43.53,"avg_postings_per_employer":5.03,"top_employers":[{"name":"Ministry Of Local Government (Molg)","n":315,"share_%":15.98},{"name":"United Nations","n":134,"share_%":6.8},{"name":"World Food Programme","n":106,"share_%":5.38},{"name":"FuZu","n":83,"share_%":4.21},{"name":"Unicef","n":52,"share_%":2.64}]},"NACE_P":{"label":"NACE P \u00b7 Education","n_postings":267,"n_employers":117,"hhi":192.6,"effective_N":51.9,"cr1_%":6.37,"cr5_%":22.85,"cr10_%":32.96,"avg_postings_per_employer":2.28,"top_employers":[{"name":"National Curriculum Development Centre","n":17,"share_%":6.37},{"name":"National Council For Higher Education","n":16,"share_%":5.99},{"name":"Makerere University","n":13,"share_%":4.87},{"name":"Horizon International School","n":8,"share_%":3.0},{"name":"Absa Bank Limited","n":7,"share_%":2.62}]},"NACE_Q":{"label":"NACE Q \u00b7 Human health & social work","n_postings":806,"n_employers":269,"hhi":125.9,"effective_N":79.4,"cr1_%":4.59,"cr5_%":18.24,"cr10_%":27.67,"avg_postings_per_employer":3.0,"top_employers":[{"name":"Mrc/Uvri Uganda Research Unit On Aids","n":37,"share_%":4.59},{"name":"Mildmay Uganda","n":36,"share_%":4.47},{"name":"Medical Teams International","n":33,"share_%":4.09},{"name":"University Research Co., Llc (Urc) & Center For Human Services (Chs)","n":23,"share_%":2.85},{"name":"FuZu","n":18,"share_%":2.23}]},"NACE_R":{"label":"NACE R \u00b7 Arts & recreation","n_postings":476,"n_employers":208,"hhi":193.8,"effective_N":51.6,"cr1_%":7.77,"cr5_%":24.37,"cr10_%":33.4,"avg_postings_per_employer":2.29,"top_employers":[{"name":"Immutable","n":37,"share_%":7.77},{"name":"Buffalo Public Schools","n":35,"share_%":7.35},{"name":"British Council","n":17,"share_%":3.57},{"name":"Kampala International School Uganda","n":14,"share_%":2.94},{"name":"Save The Children","n":13,"share_%":2.73}]}}}};
+  const root = document.getElementById("afs-empconc");
+  if (!root) return;
+
+  const COUNTRIES = ["KE","NG","UG"];
+  const COUNTRY_FULL = {KE:"Kenya", NG:"Nigeria", UG:"Uganda"};
+
+  // ─── Country toggle ─────────────────────────────────────────────────
+  const toggle = document.createElement("div");
+  toggle.className = "empc-toggle";
+  const btns = {};
+  COUNTRIES.forEach(cc => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "empc-btn";
+    b.textContent = COUNTRY_FULL[cc];
+    b.addEventListener("click", () => render(cc));
+    btns[cc] = b;
+    toggle.appendChild(b);
+  });
+  root.appendChild(toggle);
+
+  // ─── Ranked HHI chart host + top-employer card ─────────────────────
+  const chartTitle = document.createElement("div");
+  chartTitle.className = "empc-title";
+  root.appendChild(chartTitle);
+  const chartSub = document.createElement("div");
+  chartSub.className = "empc-sub";
+  chartSub.innerHTML =
+    "Segments ranked by HHI of postings. <span style=\"color:#1d4ed8;font-weight:700;\">AFS</span> highlighted; "
+    + "<span style=\"color:#64748b;font-style:italic;\">All other postings (non-AFS)</span> shown as the all-economy benchmark.";
+  root.appendChild(chartSub);
+  const chartHost = document.createElement("div");
+  root.appendChild(chartHost);
+
+  const topCard = document.createElement("div");
+  topCard.className = "empc-card";
+  root.appendChild(topCard);
+
+  function render(cc) {
+    Object.entries(btns).forEach(([k,b]) => b.classList.toggle("active", k === cc));
+    const country = DATA[cc];
+    if (!country) return;
+    const segs = country.segments;
+
+    // Build sorted list (descending HHI)
+    const rows = Object.entries(segs)
+      .map(([key, s]) => ({ key, ...s }))
+      .sort((a,b) => b.hhi - a.hhi);
+    const maxHHI = Math.max(...rows.map(r => r.hhi), 1);
+
+    chartTitle.textContent = "Employer concentration by segment — " + country.country;
+
+    chartHost.innerHTML = "";
+    rows.forEach(r => {
+      const row = document.createElement("div");
+      row.className = "empc-row";
+      const lbl = document.createElement("div");
+      lbl.className = "empc-row-lbl";
+      if (r.key === "AFS") lbl.classList.add("afs");
+      else if (r.key === "NON_AFS") lbl.classList.add("nonafs");
+      lbl.textContent = r.label;
+      row.appendChild(lbl);
+
+      const bw = document.createElement("div");
+      bw.className = "empc-row-bar";
+      const inner = document.createElement("div");
+      inner.style.background = r.key === "AFS" ? "#1d4ed8"
+        : (r.key === "NON_AFS" ? "#94a3b8" : "#cbd5e1");
+      inner.style.width = (r.hhi / (maxHHI * 1.05) * 100) + "%";
+      bw.appendChild(inner);
+      row.appendChild(bw);
+
+      const hhi = document.createElement("div");
+      hhi.className = "empc-row-hhi";
+      hhi.textContent = r.hhi.toFixed(0);
+      row.appendChild(hhi);
+
+      const cr = document.createElement("div");
+      cr.className = "empc-row-cr";
+      cr.innerHTML = "CR5: <b style=\"color:#475569;\">" + r["cr5_%"].toFixed(1) + "%</b>";
+      row.appendChild(cr);
+
+      chartHost.appendChild(row);
+    });
+
+    const note = document.createElement("div");
+    note.className = "empc-footnote";
+    note.innerHTML =
+      "HHI (postings-weighted); higher = more concentrated. CR5 = share of the five largest employers. "
+      + "<em>Unclassified</em> entries (Lightcast missing-employer label) excluded.";
+    chartHost.appendChild(note);
+
+    // Top-5 AFS employers
+    const afs = segs.AFS;
+    if (afs) {
+      topCard.innerHTML = "";
+      const head = document.createElement("div");
+      head.className = "empc-card-head";
+      const t = document.createElement("span");
+      t.className = "empc-card-title";
+      t.textContent = "Top 5 AFS employers — " + country.country;
+      head.appendChild(t);
+      const s = document.createElement("span");
+      s.className = "empc-card-stats";
+      s.innerHTML = "AFS postings <b>" + afs.n_postings.toLocaleString("en-US") + "</b>"
+        + " · unique employers <b>" + afs.n_employers.toLocaleString("en-US") + "</b>"
+        + " · CR1 <b>" + afs["cr1_%"].toFixed(1) + "%</b>"
+        + " · effective N <b>" + afs.effective_N.toFixed(1) + "</b>";
+      head.appendChild(s);
+      topCard.appendChild(head);
+
+      const maxShare = Math.max(...afs.top_employers.map(e => e["share_%"]), 0.01);
+      afs.top_employers.forEach((e, i) => {
+        const row = document.createElement("div");
+        row.className = "empc-emp-row";
+        const rk = document.createElement("span");
+        rk.className = "empc-emp-rank";
+        rk.textContent = "#" + (i+1);
+        row.appendChild(rk);
+        const nm = document.createElement("span");
+        nm.className = "empc-emp-name";
+        nm.textContent = e.name;
+        row.appendChild(nm);
+        const bw = document.createElement("span");
+        bw.className = "empc-emp-bar";
+        const b = document.createElement("div");
+        b.style.width = (e["share_%"] / (maxShare * 1.05) * 100) + "%";
+        bw.appendChild(b);
+        row.appendChild(bw);
+        const sh = document.createElement("span");
+        sh.className = "empc-emp-share";
+        sh.textContent = e["share_%"].toFixed(2) + "%";
+        row.appendChild(sh);
+        topCard.appendChild(row);
+      });
+
+      const cap = document.createElement("div");
+      cap.className = "empc-footnote";
+      cap.style.marginTop = "8px";
+      cap.textContent = "Shares as a percent of AFS postings with non-missing employer information.";
+      topCard.appendChild(cap);
+    }
+  }
+
+  render("KE");
+})();
+</script>
+<p>The picture is consistent across all three markets but with markedly different intensity. <strong>AFS employer demand is three to six times more concentrated than the rest of the economy.</strong> In Nigeria, AFS HHI (157) is almost six times the non-AFS benchmark (27); in Kenya, the gap is roughly three-fold (94 vs 32); in Uganda, also about three-fold (136 vs 44). Translated into the effective-employer metric, only ~60–100 employers effectively account for AFS demand in each country, against 230–420 for the all-economy benchmark.</p>
+<p>However, AFS is <strong>not unusually concentrated within its peer group of sectors</strong>. In every country, public administration (O), education (P), regulated utilities (D Electricity, E Water) and a few small NACE divisions sit at or above AFS in the ranking — sectors with structurally few employers, often dominated by state-owned enterprises, ministries and a handful of regulated firms. By contrast, NACE J (ICT) and NACE M (Professional services) are among the <em>least</em> concentrated segments everywhere, because they consist of many small private firms hiring routinely online.</p>
+<p>The composition of the top employers explains the pattern. <strong>AFS online demand is largely donor- and institution-driven, not driven by a competitive private agribusiness recruiting market.</strong> Top-5 AFS employers per country break out roughly as follows:</p>
+<ul>
+<li><strong>Kenya</strong> — research institutes (ILRI, JKUAT), public agencies (Kenya Forest Service), large international NGOs (Rainforest Alliance) and one major recruiter (Summit Recruitment).</li>
+<li><strong>Nigeria</strong> — job-board aggregators (Hotnigerianjobs, Jobgurus) alongside real agribusinesses (Sayed Farms, Jubaili Agrotec) and a research institute (IITA); the only country with visible private-sector AFS employers in the top tier.</li>
+<li><strong>Uganda</strong> — almost entirely public sector and development organisations (Ministry of Local Government, Ministry of Agriculture, SNV, Mercy Corps, WFP); essentially no private agribusiness visible at scale in online vacancies.</li>
+</ul>
+<p>Two takeaways follow. First, the <em>online AFS labour market</em> in these African economies is a thin, donor- and institution-led recruitment channel rather than a broad reflection of agri-food sector hiring — reinforcing the selection-bias caveat applied throughout the report. Second, when cross-country AFS skill demand is compared, <strong>Nigeria’s</strong> results are most representative of <em>private</em> agribusiness demand, while <strong>Kenya</strong> and especially <strong>Uganda</strong> primarily reflect the demand profile of <em>NGOs, research institutes and government</em> operating in the sector.</p>
+<p>Source: Authors’ calculations from Lightcast 2021–2023; postings with non-missing employer information.</p>
 </div>
 </section>
 <section id="on-farm-vs-off-farm-monthly-trends" class="level2">

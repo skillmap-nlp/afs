@@ -1,0 +1,34 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.plot.ly/plotly-2.30.0.min.js" charset="utf-8"></script>
+<style>html,body{margin:0;padding:0;overflow:hidden;font-family:Inter,Helvetica Neue,Arial,sans-serif;}
+#chart{width:100%;height:100%;}</style></head>
+<body style="margin:0;overflow:hidden;">
+<div id="chart"></div>
+<script>
+var ROWS = [["maintain the farm", 79.60073597056117, 630, 1.7], ["perform warehousing operations", 77.95818110132738, 617, 1.6], ["calibrate laboratory equipment", 69.24000525693258, 548, 1.4], ["prepare freight shipment reports", 61.78533315810225, 489, 1.3], ["liaise with crop growers", 59.63737679064266, 944, 2.5], ["monitor the production line", 55.84686555394927, 442, 1.2], ["monitor vehicle fleet operations", 55.46781443027994, 439, 1.2], ["livestock farming systems", 55.21511368116704, 437, 1.1], ["livestock", 53.69890918648968, 425, 1.1], ["ensure customs compliance", 53.69890918648968, 425, 1.1], ["oversee warehouse value-added activities", 51.045551320804314, 404, 1.1], ["ensure quality control in packaging", 49.908397949796296, 395, 1.0], ["negotiate logistics services", 49.78204757523985, 394, 1.0], ["use fleet management system", 48.89759495334473, 387, 1.0], ["monitor security procedures in warehouse operations", 48.51854382967539, 384, 1.0], ["handle shipment paperwork", 47.50774083322382, 376, 1.0], ["lean manufacturing", 44.980733342094894, 356, 0.9], ["dispatch order processing", 44.791207780260216, 709, 1.9]];
+function build(){
+  var labels = ROWS.map(function(r){return r[0];}).reverse();
+  var lifts  = ROWS.map(function(r){return r[1];}).reverse();
+  var cnts   = ROWS.map(function(r){return r[2];}).reverse();
+  var traces = [{type:"bar", orientation:"h", x:lifts, y:labels,
+    marker:{color:"#0d9488"},
+    text:lifts.map(function(v){return "×"+v.toFixed(1);}), textposition:"outside", textfont:{size:10},
+    customdata:cnts,
+    hovertemplate:"%{y}<br>lift: <b>×%{x:.2f}</b><br>%{customdata} AFS postings<extra></extra>"}];
+  var layout = {
+    title:{text:"<b>Distinctive skills in local-portal AFS postings (2024–2026)</b><br>"+
+            "<span style='font-size:11px;color:#888'>ESCO skills over-represented in AFS vs non-AFS postings (lift)</span>",
+            x:0.01,xanchor:"left",font:{size:14,color:"#333"}},
+    font:{family:"Inter, Helvetica Neue, Arial, sans-serif",color:"#333"},
+    plot_bgcolor:"white", paper_bgcolor:"white",
+    margin:{l:230,r:46,t:74,b:34},
+    xaxis:{title:"lift (× vs non-AFS)",showgrid:true,gridcolor:"#EEE",zeroline:false,tickfont:{size:10,color:"#888"}},
+    yaxis:{automargin:true,tickfont:{size:11,color:"#333"}}
+  };
+  Plotly.react("chart", traces, layout, {displayModeBar:false, responsive:true});
+}
+build();
+window.addEventListener("resize", function(){try{Plotly.Plots.resize(document.getElementById("chart"));}catch(e){}});
+window.addEventListener("load", function(){try{window.parent.postMessage({type:"afs-ready"}, "*");}catch(e){}});
+</script></body></html>

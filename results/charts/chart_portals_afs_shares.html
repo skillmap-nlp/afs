@@ -1,9 +1,23 @@
 <!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdn.plot.ly/plotly-2.30.0.min.js" charset="utf-8"></script>
-<style>html,body{margin:0;padding:0;overflow:hidden;font-family:Inter,Helvetica Neue,Arial,sans-serif;}
-#chart{width:100%;height:100%;}</style></head>
+<style>
+html,body{margin:0;padding:0;overflow:hidden;font-family:Inter,Helvetica Neue,Arial,sans-serif;}
+body{display:flex;flex-direction:column;height:100vh;}
+#chart{flex:1 1 auto;width:100%;min-height:0;}
+/* east_asia-style segmented pill control */
+.mt-bar{display:flex;align-items:center;gap:0.4rem;padding:0.45rem 0.2rem 0.1rem 0.2rem;flex:0 0 auto;}
+.mt-lab{font-size:0.72rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#64748b;}
+.mt-seg{display:inline-flex;border:1px solid #cbd5e1;border-radius:999px;overflow:hidden;}
+.mt-seg button{border:none;padding:0.3rem 0.8rem;font-weight:800;font-size:0.8rem;cursor:pointer;
+  background:#ffffff;color:#475569;font-family:inherit;transition:background .12s ease,color .12s ease;}
+.mt-seg button.on{background:#2563eb;color:#ffffff;}
+</style></head>
 <body style="margin:0;overflow:hidden;">
+<div class="mt-bar">
+  <span class="mt-lab">Country</span>
+  <span class="mt-seg" id="country-seg"></span>
+</div>
 <div id="chart"></div>
 <script>
 var SHARES = {"Kenya": {"2024": {"on_pct": 2.76, "off_pct": 7.56, "afs_pct": 10.32, "n": 40536}, "2025": {"on_pct": 2.59, "off_pct": 8.32, "afs_pct": 10.9, "n": 41807}, "2026": {"on_pct": 2.73, "off_pct": 8.34, "afs_pct": 11.07, "n": 3632}}, "Nigeria": {"2024": {"on_pct": 0.89, "off_pct": 9.72, "afs_pct": 10.61, "n": 90404}, "2025": {"on_pct": 1.55, "off_pct": 9.52, "afs_pct": 11.07, "n": 109327}, "2026": {"on_pct": 1.0, "off_pct": 10.27, "afs_pct": 11.26, "n": 12810}}, "Uganda": {"2024": {"on_pct": 4.21, "off_pct": 10.24, "afs_pct": 14.45, "n": 26738}, "2025": {"on_pct": 3.84, "off_pct": 10.94, "afs_pct": 14.78, "n": 27697}, "2026": {"on_pct": 4.41, "off_pct": 13.49, "afs_pct": 17.91, "n": 4758}}, "Pooled": {"2024": {"on_pct": 1.93, "off_pct": 9.25, "afs_pct": 11.19, "n": 157678}, "2025": {"on_pct": 2.15, "off_pct": 9.46, "afs_pct": 11.6, "n": 178831}, "2026": {"on_pct": 2.06, "off_pct": 10.66, "afs_pct": 12.72, "n": 21200}}};
@@ -13,6 +27,11 @@ var METHOD_LABEL = "Qwen classifier";
 var COUNTRIES = ["Kenya","Nigeria","Uganda","Pooled"];
 var country = "Pooled";
 
+function paintBtns(){
+  document.querySelectorAll("#country-seg button").forEach(function(b){
+    b.classList.toggle("on", b.getAttribute("data-c") === country);
+  });
+}
 function build(){
   var d = SHARES[country];
   var xs = YEARS.map(String);
@@ -35,32 +54,28 @@ function build(){
             x:0.01,xanchor:"left",font:{size:14,color:"#333"}},
     font:{family:"Inter, Helvetica Neue, Arial, sans-serif",color:"#333"},
     plot_bgcolor:"white", paper_bgcolor:"white",
-    margin:{l:48,r:18,t:96,b:34},
+    margin:{l:48,r:18,t:70,b:34},
     legend:{orientation:"h",yanchor:"bottom",y:1.0,xanchor:"right",x:1,font:{size:11}},
-    updatemenus:[{type:"buttons",direction:"right",x:0.5,xanchor:"center",y:1.04,yanchor:"bottom",
-      showactive:true,active:COUNTRIES.indexOf(country),
-      bgcolor:"#f4f6f8",bordercolor:"#b8c2cc",borderwidth:1,font:{size:11,color:"#2f2f2f"},
-      pad:{r:6,t:3,b:3,l:6},
-      buttons: COUNTRIES.map(function(c){return {label:c,method:"skip"};})}],
     xaxis:{showgrid:false,showline:true,linecolor:"#CCC",tickfont:{color:"#666",size:12}},
     yaxis:{ticksuffix:"%",showgrid:true,gridcolor:"#EEE",range:[0,ymax],tickfont:{color:"#888",size:11},zeroline:false}
   };
   Plotly.react("chart", traces, layout, {displayModeBar:false, responsive:true});
-  wireButtons();
+  setTimeout(function(){ try{ Plotly.Plots.resize(document.getElementById("chart")); }catch(e){} }, 60);
 }
 
-// Country switch: wire the Plotly updatemenu buttons to rebuild with new country.
-function wireButtons(){
-  var menu = document.querySelectorAll('.updatemenu-button');
-  menu.forEach(function(b, i){
-    b.style.cursor = "pointer";
-    if (b.__afsWired) return;
-    b.__afsWired = true;
-    b.addEventListener('click', function(){ country = COUNTRIES[i]; build(); });
+(function(){
+  var seg = document.getElementById("country-seg");
+  COUNTRIES.forEach(function(c){
+    var b = document.createElement("button");
+    b.type = "button"; b.textContent = c; b.setAttribute("data-c", c);
+    b.addEventListener("click", function(){ country = c; paintBtns(); build(); });
+    seg.appendChild(b);
   });
-}
+})();
 
+paintBtns();
 build();
+[60,150,350,700].forEach(function(t){ setTimeout(function(){ try{ Plotly.Plots.resize(document.getElementById("chart")); }catch(e){} }, t); });
 window.addEventListener("resize", function(){
   try{ Plotly.Plots.resize(document.getElementById("chart")); }catch(e){}
 });

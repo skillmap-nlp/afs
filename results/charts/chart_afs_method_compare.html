@@ -6,62 +6,40 @@
   html,body{margin:0;padding:0;overflow:hidden;font-family:Inter,Helvetica Neue,Arial,sans-serif;}
   body{display:flex;flex-direction:column;height:100vh;}
   #chart{flex:1 1 auto;width:100%;min-height:0;}
-  /* east_asia-style segmented pill control */
-  .mt-bar{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.2rem 0.1rem 0.2rem;flex:0 0 auto;}
-  .mt-lab{font-size:0.72rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#64748b;}
-  .mt-seg{display:inline-flex;border:1px solid #cbd5e1;border-radius:999px;overflow:hidden;}
-  .mt-seg button{border:none;padding:0.32rem 0.85rem;font-weight:800;font-size:0.82rem;cursor:pointer;
-    background:#ffffff;color:#475569;font-family:inherit;transition:background .12s ease,color .12s ease;}
-  .mt-seg button.on{background:#2563eb;color:#ffffff;}
 </style></head>
 <body style="margin:0;overflow:hidden;">
-<div class="mt-bar">
-  <span class="mt-lab">Classification</span>
-  <span class="mt-seg">
-    <button type="button" data-m="model" class="on">Classifier</button>
-    <button type="button" data-m="keyword">Conservative</button>
-  </span>
-</div>
 <div id="chart"></div>
 <script>
 var DATA = {"model": {"Kenya": {"on_pct": 3.11, "off_pct": 8.88, "afs_pct": 11.99, "n_total": 360136, "n_afs": 43185}, "Nigeria": {"on_pct": 0.94, "off_pct": 10.92, "afs_pct": 11.86, "n_total": 422562, "n_afs": 50130}, "Uganda": {"on_pct": 2.85, "off_pct": 9.17, "afs_pct": 12.02, "n_total": 77100, "n_afs": 9269}, "Pooled": {"on_pct": 2.02, "off_pct": 9.91, "afs_pct": 11.93, "n_total": 859798, "n_afs": 102584}}, "keyword": {"Kenya": {"on_pct": 2.13, "off_pct": 1.05, "afs_pct": 4.04, "n_total": 360136, "n_afs": 14535}, "Nigeria": {"on_pct": 1.05, "off_pct": 1.73, "afs_pct": 3.87, "n_total": 422562, "n_afs": 16341}, "Uganda": {"on_pct": 1.72, "off_pct": 0.55, "afs_pct": 3.07, "n_total": 77100, "n_afs": 2367}, "Pooled": {"on_pct": 1.56, "off_pct": 1.34, "afs_pct": 3.87, "n_total": 859798, "n_afs": 33243}}};
 var ORDER = ["Kenya","Nigeria","Uganda","Pooled"];
-var COLOR_ON = "#66bb6a", COLOR_OFF = "#42a5f5";
-var method = "model";  // default: Qwen classifier
+var COLOR_MODEL = "#2563eb", COLOR_KEYWORD = "#f59e0b";
 
-function methodLabel(m){ return m === "model" ? "Qwen classifier" : "Conservative (keyword)"; }
-
-function paintBtns(){
-  document.querySelectorAll(".mt-seg button").forEach(function(b){
-    b.classList.toggle("on", b.getAttribute("data-m") === method);
-  });
-}
-function setMethod(m){
-  if(m !== "model" && m !== "keyword") return;
-  method = m; paintBtns(); build();
-  try{ window.parent.postMessage({type:"afs-method-local", method:m}, "*"); }catch(err){}
+function buildTrace(method, name, color){
+  var d = DATA[method];
+  var afs = ORDER.map(function(c){ return d[c].afs_pct; });
+  var on  = ORDER.map(function(c){ return d[c].on_pct; });
+  var off = ORDER.map(function(c){ return d[c].off_pct; });
+  return {
+    type:"bar", name:name, x:ORDER, y:afs, marker:{color:color},
+    text: afs.map(function(v){return v.toFixed(1)+"%";}), textposition:"outside",
+    textfont:{size:10, color:"#475569"}, cliponaxis:false,
+    customdata: ORDER.map(function(c,i){ return [on[i], off[i]]; }),
+    hovertemplate:"<b>%{x} · "+name+"</b><br>AFS share: <b>%{y:.2f}%</b>"+
+      "<br>On-farm: %{customdata[0]:.2f}%<br>Off-farm: %{customdata[1]:.2f}%<extra></extra>"
+  };
 }
 
 function build(){
-  var d = DATA[method];
-  var on = ORDER.map(function(c){ return d[c].on_pct; });
-  var off = ORDER.map(function(c){ return d[c].off_pct; });
   var traces = [
-    { type:"bar", name:"On-farm", x:ORDER, y:on, marker:{color:COLOR_ON},
-       text: on.map(function(v){return v.toFixed(2)+"%";}), textposition:"outside",
-       textfont:{size:10},
-       hovertemplate:"%{x} · On-farm: <b>%{y:.2f}%</b><extra></extra>" },
-    { type:"bar", name:"Off-farm", x:ORDER, y:off, marker:{color:COLOR_OFF},
-       text: off.map(function(v){return v.toFixed(2)+"%";}), textposition:"outside",
-       textfont:{size:10},
-       hovertemplate:"%{x} · Off-farm: <b>%{y:.2f}%</b><extra></extra>" }
+    buildTrace("model", "Contextual model", COLOR_MODEL),
+    buildTrace("keyword", "Keyword", COLOR_KEYWORD)
   ];
-  var ymax = Math.max.apply(null, on.concat(off)) * 1.25 + 1;
+  var allv = traces[0].y.concat(traces[1].y);
+  var ymax = Math.max.apply(null, allv) * 1.22 + 1;
   var layout = {
-    barmode:"group",
-    title:{ text:"<b>AFS share of all online postings — on-farm vs off-farm</b><br>"+
-            "<span style='font-size:11px;color:#888'>"+methodLabel(method)+
-            " · Lightcast · 2021–2023</span>",
+    barmode:"group", bargap:0.28, bargroupgap:0.12,
+    title:{ text:"<b>AFS share of all online postings — contextual model vs keyword</b><br>"+
+            "<span style='font-size:11px;color:#888'>Share of postings classified as AFS · Lightcast · 2021–2023</span>",
             x:0.01, xanchor:"left", font:{size:14, color:"#333"} },
     font:{family:"Inter, Helvetica Neue, Arial, sans-serif", color:"#333"},
     plot_bgcolor:"white", paper_bgcolor:"white",
@@ -74,21 +52,10 @@ function build(){
   Plotly.react("chart", traces, layout, {displayModeBar:false, responsive:true});
 }
 
-document.querySelectorAll(".mt-seg button").forEach(function(b){
-  b.addEventListener("click", function(){ setMethod(b.getAttribute("data-m")); });
-});
-window.addEventListener("message", function(e){
-  if(!e.data) return;
-  if(e.data.type === "afs-method" && (e.data.method === "model" || e.data.method === "keyword")){
-    method = e.data.method;
-    paintBtns(); build();
-  }
-});
 window.addEventListener("resize", function(){
   try{ Plotly.Plots.resize(document.getElementById("chart")); }catch(err){}
 });
 
-paintBtns();
 build();
 window.addEventListener("load", function(){
   try{ window.parent.postMessage({type:"afs-ready"}, "*"); }catch(err){}

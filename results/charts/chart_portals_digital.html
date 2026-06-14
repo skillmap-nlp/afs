@@ -1,0 +1,46 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.plot.ly/plotly-2.30.0.min.js" charset="utf-8"></script>
+<style>html,body{margin:0;padding:0;overflow:hidden;font-family:Inter,Helvetica Neue,Arial,sans-serif;}
+body{display:flex;flex-direction:column;height:100vh;}
+#chart{flex:1 1 auto;width:100%;min-height:0;}</style></head>
+<body style="margin:0;overflow:hidden;">
+<div id="chart"></div>
+<script>
+var DATA = {"Portals": {"On-farm": 54.8, "On-farm_n": 6679, "Off-farm": 59.1, "Off-farm_n": 31366}, "Lightcast": {"On-farm": 67.9, "On-farm_n": 16876, "Off-farm": 65.5, "Off-farm_n": 82668}};
+var SEGS = ["On-farm","Off-farm"];
+var COLOR_P = "#0EA5B7", COLOR_L = "#94a3b8";
+function build(){
+  var portals = SEGS.map(function(s){ return DATA["Portals"][s]; });
+  var light   = SEGS.map(function(s){ return DATA["Lightcast"][s]; });
+  var pn = SEGS.map(function(s){ return DATA["Portals"][s+"_n"]; });
+  var ln = SEGS.map(function(s){ return DATA["Lightcast"][s+"_n"]; });
+  var traces = [
+    {type:"bar", name:"Local portals (2024\u20132026)", x:SEGS, y:portals, marker:{color:COLOR_P},
+     text:portals.map(function(v){return v.toFixed(1)+"%";}), textposition:"outside", textfont:{size:11,color:"#0f172a"},
+     customdata:pn, hovertemplate:"%{x} \u00b7 Local portals: <b>%{y:.1f}%</b><br>%{customdata:,} postings<extra></extra>"},
+    {type:"bar", name:"Lightcast (2021\u20132023)", x:SEGS, y:light, marker:{color:COLOR_L},
+     text:light.map(function(v){return v.toFixed(1)+"%";}), textposition:"outside", textfont:{size:11,color:"#0f172a"},
+     customdata:ln, hovertemplate:"%{x} \u00b7 Lightcast: <b>%{y:.1f}%</b><br>%{customdata:,} postings<extra></extra>"}
+  ];
+  var ymax = Math.max.apply(null, portals.concat(light))*1.2 + 2;
+  var layout = {
+    barmode:"group", bargap:0.34, bargroupgap:0.1,
+    title:{text:"<b>Digital-skill adoption in AFS postings \u2014 local portals vs Lightcast</b><br>"+
+            "<span style='font-size:11px;color:#888'>Share of AFS postings (with extracted skills) listing at least one ESCO digital skill \u00b7 pooled</span>",
+            x:0.01, xanchor:"left", font:{size:14,color:"#333"}},
+    font:{family:"Inter, Helvetica Neue, Arial, sans-serif", color:"#333"},
+    plot_bgcolor:"white", paper_bgcolor:"white",
+    margin:{l:50,r:18,t:78,b:38},
+    legend:{orientation:"h", yanchor:"bottom", y:1.0, xanchor:"right", x:1, font:{size:11}},
+    xaxis:{showgrid:false, showline:true, linecolor:"#CCC", tickfont:{color:"#666",size:13}},
+    yaxis:{ticksuffix:"%", showgrid:true, gridcolor:"#EEE", range:[0,ymax], tickfont:{color:"#888",size:11}, zeroline:false}
+  };
+  Plotly.react("chart", traces, layout, {displayModeBar:false, responsive:true});
+  setTimeout(function(){try{Plotly.Plots.resize(document.getElementById("chart"));}catch(e){}},60);
+}
+build();
+[60,150,350,700].forEach(function(t){setTimeout(function(){try{Plotly.Plots.resize(document.getElementById("chart"));}catch(e){}},t);});
+window.addEventListener("resize", function(){try{Plotly.Plots.resize(document.getElementById("chart"));}catch(e){}});
+window.addEventListener("load", function(){try{window.parent.postMessage({type:"afs-ready"}, "*");}catch(e){}});
+</script></body></html>

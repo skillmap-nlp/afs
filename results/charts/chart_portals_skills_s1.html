@@ -1,0 +1,75 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.plot.ly/plotly-2.30.0.min.js" charset="utf-8"></script>
+<style>html,body{margin:0;padding:0;overflow:hidden;font-family:Inter,Helvetica Neue,Arial,sans-serif;}
+body{display:flex;flex-direction:column;height:100vh;}
+#chart{flex:1 1 auto;width:100%;min-height:0;}
+.mt-bar{display:flex;align-items:center;gap:0.4rem;padding:0.45rem 0.2rem 0.1rem 0.2rem;flex:0 0 auto;}
+.mt-lab{font-size:0.72rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#64748b;}
+.mt-seg{display:inline-flex;border:1px solid #cbd5e1;border-radius:999px;overflow:hidden;}
+.mt-seg button{border:none;padding:0.3rem 0.85rem;font-weight:800;font-size:0.8rem;cursor:pointer;
+  background:#ffffff;color:#475569;font-family:inherit;transition:background .12s ease,color .12s ease;}
+.mt-seg button.on{background:#2563eb;color:#ffffff;}
+</style></head>
+<body style="margin:0;overflow:hidden;">
+<div class="mt-bar">
+  <span class="mt-lab">Country</span>
+  <span class="mt-seg" id="cty-seg">
+    <button type="button" data-c="Kenya">Kenya</button>
+    <button type="button" data-c="Nigeria">Nigeria</button>
+    <button type="button" data-c="Uganda">Uganda</button>
+    <button type="button" data-c="Pooled" class="on">Pooled</button>
+  </span>
+</div>
+<div id="chart"></div>
+<script>
+var DATA = {"Kenya": {"On-farm": {"S4": 25.47, "S1": 31.21, "S2": 17.87, "S5": 5.83, "S3": 7.33, "S6": 8.22, "S7": 1.56, "S8": 2.51}, "Off-farm": {"S4": 31.56, "S1": 29.04, "S5": 4.49, "S2": 16.71, "S6": 4.74, "S3": 10.05, "S7": 0.83, "S8": 2.58}}, "Nigeria": {"On-farm": {"S1": 26.09, "S4": 25.7, "S6": 11.55, "S2": 16.16, "S5": 5.08, "S3": 9.17, "S8": 3.41, "S7": 2.84}, "Off-farm": {"S5": 4.26, "S1": 25.87, "S4": 32.62, "S6": 5.84, "S8": 3.07, "S2": 16.31, "S3": 10.97, "S7": 1.06}}, "Uganda": {"On-farm": {"S5": 5.44, "S4": 27.2, "S8": 2.8, "S1": 31.41, "S2": 16.34, "S3": 8.42, "S6": 6.98, "S7": 1.42}, "Off-farm": {"S7": 1.28, "S8": 3.87, "S2": 17.0, "S4": 30.18, "S1": 27.82, "S6": 4.75, "S3": 10.03, "S5": 5.08}}, "Pooled": {"On-farm": {"S4": 26.22, "S1": 29.82, "S2": 16.78, "S5": 5.46, "S3": 8.29, "S6": 8.68, "S7": 1.87, "S8": 2.88}, "Off-farm": {"S4": 31.88, "S1": 26.96, "S5": 4.48, "S2": 16.54, "S6": 5.37, "S3": 10.57, "S7": 1.06, "S8": 3.14}}};
+var LABELS = ["<b>S1</b>  Communication, Collaboration And Creativity", "<b>S4</b>  Management Skills", "<b>S2</b>  Information Skills", "<b>S6</b>  Handling And Moving", "<b>S3</b>  Assisting And Caring", "<b>S5</b>  Working With Computers", "<b>S8</b>  Working With Machinery And Specialised Equ\u2026", "<b>S7</b>  Constructing"];
+var CODES = ["S1", "S4", "S2", "S6", "S3", "S5", "S8", "S7"];
+var FULL = ["S1  Communication, Collaboration And Creativity", "S4  Management Skills", "S2  Information Skills", "S6  Handling And Moving", "S3  Assisting And Caring", "S5  Working With Computers", "S8  Working With Machinery And Specialised Equ\u2026", "S7  Constructing"];
+var XMAX = 38.5;
+var TITLE = "ESCO skill groups (S1–S8) — on-farm vs off-farm";
+var SUB = "Share of all S1–S8 skill mentions within each segment · local portals, 2024–2026";
+var XSUF = "%";
+var COLOR_ON="#66bb6a", COLOR_OFF="#42a5f5";
+var country = "Pooled";
+function paintBtns(){
+  document.querySelectorAll("#cty-seg button").forEach(function(b){
+    b.classList.toggle("on", b.getAttribute("data-c") === country);
+  });
+}
+function vec(seg){
+  var d = (DATA[country]||{})[seg]||{};
+  return CODES.map(function(c){ return d[c]||0; });
+}
+function build(){
+  var on = vec("On-farm"), off = vec("Off-farm");
+  var traces = [
+    {type:"bar", orientation:"h", name:"On-farm", y:LABELS, x:on, marker:{color:COLOR_ON},
+      customdata:FULL, hovertemplate:"<b>%{customdata}</b><br>On-farm: %{x:.1f}"+XSUF+"<extra></extra>"},
+    {type:"bar", orientation:"h", name:"Off-farm", y:LABELS, x:off, marker:{color:COLOR_OFF},
+      customdata:FULL, hovertemplate:"<b>%{customdata}</b><br>Off-farm: %{x:.1f}"+XSUF+"<extra></extra>"}
+  ];
+  var layout = {
+    barmode:"group",
+    title:{text:"<b>"+TITLE+" — "+country+"</b><br><span style='font-size:11px;color:#888'>"+SUB+"</span>",
+            x:0.01,xanchor:"left",font:{size:14,color:"#333"}},
+    font:{family:"Inter, Helvetica Neue, Arial, sans-serif",color:"#333"},
+    plot_bgcolor:"white", paper_bgcolor:"white",
+    margin:{l:235,r:40,t:74,b:40},
+    legend:{orientation:"h",yanchor:"top",y:-0.05,xanchor:"left",x:0,font:{size:11}},
+    xaxis:{ticksuffix:XSUF,showgrid:true,gridcolor:"#EEE",zeroline:false,range:[0,XMAX],tickfont:{size:10,color:"#888"}},
+    yaxis:{showgrid:false,showline:true,linecolor:"#CCC",zeroline:false,autorange:"reversed",tickfont:{size:10,color:"#333"}}
+  };
+  Plotly.react("chart", traces, layout, {displayModeBar:false, responsive:true});
+  setTimeout(function(){try{Plotly.Plots.resize(document.getElementById("chart"));}catch(e){}},60);
+}
+document.querySelectorAll("#cty-seg button").forEach(function(b){
+  b.addEventListener("click", function(){ country=b.getAttribute("data-c"); paintBtns(); build(); });
+});
+paintBtns();
+build();
+[60,150,350,700].forEach(function(t){setTimeout(function(){try{Plotly.Plots.resize(document.getElementById("chart"));}catch(e){}},t);});
+window.addEventListener("resize", function(){try{Plotly.Plots.resize(document.getElementById("chart"));}catch(e){}});
+window.addEventListener("load", function(){try{window.parent.postMessage({type:"afs-ready"}, "*");}catch(e){}});
+</script></body></html>

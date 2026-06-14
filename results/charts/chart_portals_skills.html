@@ -2,33 +2,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdn.plot.ly/plotly-2.30.0.min.js" charset="utf-8"></script>
 <style>html,body{margin:0;padding:0;overflow:hidden;font-family:Inter,Helvetica Neue,Arial,sans-serif;}
-#chart{width:100%;height:100%;}</style></head>
+body{display:flex;flex-direction:column;height:100vh;}
+#chart{flex:1 1 auto;width:100%;min-height:0;}
+.mt-bar{display:flex;align-items:center;gap:0.4rem;padding:0.45rem 0.2rem 0.1rem 0.2rem;flex:0 0 auto;}
+.mt-lab{font-size:0.72rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#64748b;}
+.mt-seg{display:inline-flex;border:1px solid #cbd5e1;border-radius:999px;overflow:hidden;}
+.mt-seg button{border:none;padding:0.3rem 0.85rem;font-weight:800;font-size:0.8rem;cursor:pointer;
+  background:#ffffff;color:#475569;font-family:inherit;transition:background .12s ease,color .12s ease;}
+.mt-seg button.on{background:#2563eb;color:#ffffff;}
+</style></head>
 <body style="margin:0;overflow:hidden;">
+<div class="mt-bar">
+  <span class="mt-lab">Country</span>
+  <span class="mt-seg" id="cty-seg">
+    <button type="button" data-c="Kenya">Kenya</button>
+    <button type="button" data-c="Nigeria">Nigeria</button>
+    <button type="button" data-c="Uganda">Uganda</button>
+    <button type="button" data-c="Pooled" class="on">Pooled</button>
+  </span>
+  <span class="mt-lab" style="margin-left:0.9rem;">AFS segment</span>
+  <span class="mt-seg" id="seg-seg">
+    <button type="button" data-s="On-farm">On-farm</button>
+    <button type="button" data-s="Off-farm" class="on">Off-farm</button>
+  </span>
+</div>
 <div id="chart"></div>
 <script>
-var ROWS = [["collaborate in company's daily operations", 1015.0270469181233, 3136, 8.2], ["follow reporting procedures", 604.6143251412801, 1868, 4.9], ["supervision of persons", 511.3975555263504, 1580, 4.2], ["apply health and safety standards", 451.19505848337496, 1394, 3.7], ["company policies", 441.48497831515317, 1364, 3.6], ["prepare the restaurant for service", 397.4659482192141, 1228, 3.2], ["food hygiene rules", 373.5144171376002, 1154, 3.0], ["instruct kitchen personnel", 373.1907477986595, 1153, 3.0], ["present menus", 344.70784597187543, 1065, 2.8], ["stock shelves", 334.0267577868314, 1032, 2.7], ["notify supervisor", 322.37466158496517, 996, 2.6], ["follow stock control instructions", 308.1332106715731, 952, 2.5], ["serve food in table service", 303.2781705874622, 937, 2.5], ["apply problem solving in social service", 298.09946116441057, 1842, 4.8], ["advise guests on menus for special events", 283.8580102510185, 877, 2.3], ["food and beverages on the menu", 279.6503088447891, 864, 2.3], ["plan", 278.0319621500854, 859, 2.3], ["coordinate transportation", 273.50059140491527, 845, 2.2]];
+var DATA = {"Kenya": {"On-farm": [["gather data", 460.64815657715064, 187, 8.5], ["livestock", 445.8680018206645, 181, 8.2], ["establish collaborative relations", 394.1374601729631, 160, 7.3], ["supervision of persons", 325.16340464269456, 132, 6.0], ["mentor individuals", 241.4091943559399, 98, 4.5], ["collaborate in company's daily operations", 221.70232134729176, 90, 4.1], ["make decisions", 216.77560309512972, 88, 4.0], ["perform scientific research", 214.3122439690487, 87, 4.0], ["follow reporting procedures", 199.5320892125626, 81, 3.7], ["assist community", 189.67865270823853, 77, 3.5], ["conduct scholarly research", 174.8984979517524, 71, 3.2], ["apply problem solving in social service", 162.58170232134728, 66, 3.0], ["plan", 155.19162494310422, 63, 2.9], ["carry out strategic research", 150.26490669094218, 61, 2.8], ["notify supervisor", 140.41147018661812, 57, 2.6], ["livestock feeding", 135.48475193445609, 55, 2.5], ["assist scientific research", 135.48475193445609, 55, 2.5], ["participate actively in civic life", 135.48475193445609, 55, 2.5]], "Off-farm": [["collaborate in company's daily operations", 158.14344954692058, 567, 8.7], ["follow reporting procedures", 116.02764552296114, 416, 6.4], ["apply problem solving in social service", 93.99354937797573, 337, 5.2], ["handle kitchen equipment", 88.97312240823221, 319, 4.9], ["company policies", 75.58531715558286, 271, 4.2], ["supervise work", 75.30640454615265, 270, 4.1], ["present menus", 73.35401628014128, 263, 4.0], ["supervision of persons", 72.2383658424205, 259, 4.0], ["instruct kitchen personnel", 71.68054062356012, 257, 3.9], ["apply health and safety standards", 68.33358931039777, 245, 3.8], ["measure customer feedback", 68.05467670096759, 244, 3.7], ["improve customer interaction", 68.05467670096759, 244, 3.7], ["food and beverages on the menu", 67.4968514821072, 242, 3.7], ["procurement lifecycle", 65.26555060666563, 234, 3.6], ["prepare the restaurant for service", 61.639686684073105, 221, 3.4], ["food hygiene rules", 60.80294885578252, 218, 3.3], ["deal with pressure from unexpected circumstances", 60.66349255106742, 435, 6.7], ["use a warehouse management system", 57.455997542620175, 206, 3.2]]}, "Nigeria": {"On-farm": [["breed poultry", 179.46861924686195, 177, 8.2], ["conduct scholarly research", 162.23152022315205, 160, 7.4], ["supervision of persons", 107.47838214783822, 106, 4.9], ["livestock", 96.32496513249652, 95, 4.4], ["collaborate in company's daily operations", 92.26917712691771, 91, 4.2], ["make decisions", 88.21338912133892, 87, 4.0], ["livestock feeding", 85.17154811715481, 84, 3.9], ["follow reporting procedures", 83.14365411436542, 82, 3.8], ["assist community", 82.12970711297072, 81, 3.8], ["establish collaborative relations", 81.11576011157602, 80, 3.7], ["deal with pressure from unexpected circumstances", 79.08786610878661, 78, 3.6], ["conflict management", 78.07391910739192, 77, 3.6], ["ensure compliance with safety legislation", 70.976290097629, 70, 3.3], ["notify supervisor", 68.94839609483961, 68, 3.2], ["build team spirit", 62.864714086471416, 62, 2.9], ["animal biology", 61.850767085076704, 61, 2.8], ["biosecurity", 54.24616457461646, 107, 5.0], ["apply health and safety standards", 53.73919107391911, 53, 2.5]], "Off-farm": [["collaborate in company's daily operations", 173.46665951397455, 1852, 9.9], ["deal with pressure from unexpected circumstances", 119.51590579904511, 1276, 6.8], ["handle kitchen equipment", 97.03642508449117, 1036, 5.6], ["moderate in negotiations", 95.163135024945, 1016, 5.5], ["apply problem solving in social service", 87.0143232659192, 929, 5.0], ["prepare the restaurant for service", 85.14103320637305, 909, 4.9], ["adhere to Standard Operating Procedures", 77.17955045330186, 824, 4.4], ["carry out sales analysis", 77.08588595032454, 823, 4.4], ["food hygiene rules", 75.11893138780108, 802, 4.3], ["instruct kitchen personnel", 72.964647819323, 779, 4.2], ["company policies", 71.65334477764068, 765, 4.1], ["apply health and safety standards", 70.90402875382222, 757, 4.1], ["present menus", 66.40813261091142, 709, 3.8], ["use communication techniques", 65.65881658709297, 701, 3.8], ["maintain personal hygiene standards when cleaning", 65.28415857518374, 697, 3.7], ["stock shelves", 63.41086851563757, 677, 3.6], ["food and beverage industry", 62.5678879888418, 668, 3.6], ["establish collaborative relations", 61.069255941204865, 652, 3.5]]}, "Uganda": {"On-farm": [["follow reporting procedures", 66.95238095238095, 222, 9.5], ["application process", 48.253968253968246, 160, 6.9], ["supervision of persons", 47.95238095238094, 159, 6.8], ["exercise rights and responsibilities", 46.44444444444444, 154, 6.6], ["work within communities", 38.6031746031746, 256, 11.0], ["assist community", 38.0, 126, 5.4], ["notify supervisor", 34.98412698412698, 116, 5.0], ["teach further education", 33.92857142857143, 225, 9.7], ["cooperate with colleagues", 33.77777777777778, 112, 4.8], ["promote inclusion", 32.57142857142857, 108, 4.6], ["collaborate in company's daily operations", 29.253968253968253, 97, 4.2], ["establish collaborative relations", 29.1031746031746, 193, 8.3], ["deal with pressure from unexpected circumstances", 28.349206349206348, 94, 4.0], ["satisfy technical requirements", 28.047619047619044, 93, 4.0], ["participate actively in civic life", 27.746031746031743, 92, 3.9], ["provide information", 25.936507936507933, 86, 3.7], ["supervise work", 25.78571428571429, 171, 7.3], ["plan", 24.428571428571427, 81, 3.5]], "Off-farm": [["sales activities", 39.69021564209849, 535, 8.6], ["collaborate in company's daily operations", 32.56823302220792, 439, 7.1], ["teach further education", 32.27148374637915, 435, 7.0], ["follow reporting procedures", 32.04892178950757, 432, 7.0], ["make decisions", 29.526552944962987, 398, 6.4], ["supervise work", 28.413743160605083, 383, 6.2], ["apply problem solving in social service", 27.523495333118763, 371, 6.0], ["work in shifts", 27.00418410041841, 364, 5.9], ["communicate with customers", 24.110878661087863, 325, 5.2], ["adhere to Standard Operating Procedures", 22.998068876729963, 310, 5.0], ["supervision of persons", 22.849694238815577, 308, 5.0], ["use communication techniques", 22.107821049243643, 298, 4.8], ["exercise rights and responsibilities", 21.959446411329253, 296, 4.8], ["adult education", 21.885259092372063, 295, 4.7], ["ensure compliance with safety legislation", 21.4401351786289, 289, 4.7], ["maintain work area cleanliness", 20.475700032185387, 276, 4.4], ["application process", 20.401512713228193, 275, 4.4], ["speak different languages", 20.253138075313807, 273, 4.4]]}, "Pooled": {"On-farm": [["supervision of persons", 492.9956580326396, 397, 5.9], ["follow reporting procedures", 478.0940260518042, 385, 5.8], ["livestock", 434.6309327743674, 350, 5.2], ["assist community", 352.67195687977244, 284, 4.3], ["collaborate in company's daily operations", 345.2211408893547, 278, 4.2], ["breed poultry", 322.86869291810154, 260, 3.9], ["conduct scholarly research", 321.62689025303183, 259, 3.9], ["notify supervisor", 299.2744422817787, 241, 3.6], ["establish collaborative relations", 268.850276987573, 433, 6.5], ["deal with pressure from unexpected circumstances", 255.81134900434196, 206, 3.1], ["livestock feeding", 245.876927683785, 198, 3.0], ["participate actively in civic life", 232.21709836801915, 187, 2.8], ["exercise rights and responsibilities", 230.97529570294952, 186, 2.8], ["apply health and safety standards", 221.04087438239256, 178, 2.7], ["conflict management", 217.3154663871837, 175, 2.6], ["plan", 208.62284773169634, 168, 2.5], ["ensure compliance with safety legislation", 192.4794130857913, 155, 2.3], ["satisfy technical requirements", 183.78679443030393, 148, 2.2]], "Off-farm": [["collaborate in company's daily operations", 366.3845565261748, 2858, 9.1], ["apply problem solving in social service", 209.85707453931008, 1637, 5.2], ["follow reporting procedures", 190.11486960402982, 1483, 4.7], ["handle kitchen equipment", 189.47388892431294, 1478, 4.7], ["company policies", 161.27073901676974, 1258, 4.0], ["prepare the restaurant for service", 157.296658802525, 1227, 3.9], ["apply health and safety standards", 155.88650130714785, 1216, 3.9], ["supervision of persons", 151.65602882101638, 1183, 3.8], ["instruct kitchen personnel", 147.68194860677167, 1152, 3.7], ["food hygiene rules", 146.01539883950775, 1139, 3.6], ["present menus", 136.4006886437544, 1064, 3.4], ["stock shelves", 129.8626857106421, 1013, 3.2], ["use a warehouse management system", 124.99123254479372, 975, 3.1], ["serve food in table service", 119.86338710705859, 935, 3.0], ["follow stock control instructions", 117.81224893196455, 919, 2.9], ["write in conversational tone", 116.01750302875725, 905, 2.9], ["advise guests on menus for special events", 112.42801122234266, 877, 2.8], ["food and beverages on the menu", 110.37687304724861, 861, 2.7]]}};
+var SEG_COLOR = {"On-farm":"#66bb6a","Off-farm":"#42a5f5"};
+var country = "Pooled";
+var seg = "Off-farm";
+function paintBtns(){
+  document.querySelectorAll("#cty-seg button").forEach(function(b){
+    b.classList.toggle("on", b.getAttribute("data-c") === country);
+  });
+  document.querySelectorAll("#seg-seg button").forEach(function(b){
+    b.classList.toggle("on", b.getAttribute("data-s") === seg);
+  });
+}
 function build(){
+  var ROWS = ((DATA[country] || {})[seg]) || [];
   var labels = ROWS.map(function(r){return r[0];}).reverse();
   var lifts  = ROWS.map(function(r){return r[1];}).reverse();
   var cnts   = ROWS.map(function(r){return r[2];}).reverse();
-    var traces = [{type:"bar", orientation:"h", x:lifts, y:labels,
-    marker:{color:"#0d9488"},
+  var ctyTxt = (country === "Pooled") ? "all portals" : country;
+  var traces = [{type:"bar", orientation:"h", x:lifts, y:labels,
+    marker:{color:SEG_COLOR[seg]},
     text:lifts.map(function(v){return "×"+v.toFixed(1);}), textposition:"outside", textfont:{size:10},
     customdata:cnts,
-    hovertemplate:"%{y}<br>lift vs Lightcast AFS: <b>×%{x:.2f}</b><br>%{customdata} portal AFS postings<extra></extra>"}];
+    hovertemplate:"%{y}<br>lift vs Lightcast "+seg+" AFS ("+ctyTxt+"): <b>×%{x:.2f}</b><br>%{customdata} portal "+seg+" postings<extra></extra>"}];
+  var xmax = lifts.length ? Math.max.apply(null, lifts)*1.15 : 1;
   var layout = {
-    title:{text:"<b>Skills more frequent in portal AFS than in Lightcast AFS</b><br>"+
-            "<span style='font-size:11px;color:#888'>ESCO skills, local-portal AFS postings (2024–2026) vs Lightcast AFS (2021–2023) · lift in share</span>",
+    title:{text:"<b>Skills more frequent in portal "+seg+" AFS than in Lightcast "+seg+" AFS — "+country+"</b><br>"+
+            "<span style='font-size:11px;color:#888'>ESCO skills, local-portal AFS (2024–2026) vs Lightcast AFS (2021–2023) · lift in share</span>",
             x:0.01,xanchor:"left",font:{size:14,color:"#333"}},
     font:{family:"Inter, Helvetica Neue, Arial, sans-serif",color:"#333"},
     plot_bgcolor:"white", paper_bgcolor:"white",
     margin:{l:230,r:46,t:74,b:34},
-    xaxis:{title:"lift (× vs Lightcast AFS share)",showgrid:true,gridcolor:"#EEE",zeroline:false,tickfont:{size:10,color:"#888"}},
-    yaxis:{automargin:true,tickfont:{size:11,color:"#333"}}
+    xaxis:{title:"lift (× vs Lightcast AFS share)",showgrid:true,gridcolor:"#EEE",zeroline:false,range:[0,xmax],tickfont:{size:10,color:"#888"}},
+    yaxis:{automargin:true,tickfont:{size:11,color:"#333"}},
+    annotations: labels.length ? [] : [{text:"No skill clears the minimum-frequency threshold for this country/segment.",
+      showarrow:false, font:{size:12,color:"#94a3b8"}, xref:"paper", yref:"paper", x:0.5, y:0.5}]
   };
   Plotly.react("chart", traces, layout, {displayModeBar:false, responsive:true});
+  setTimeout(function(){try{Plotly.Plots.resize(document.getElementById("chart"));}catch(e){}},60);
 }
+document.querySelectorAll("#cty-seg button").forEach(function(b){
+  b.addEventListener("click", function(){ country=b.getAttribute("data-c"); paintBtns(); build(); });
+});
+document.querySelectorAll("#seg-seg button").forEach(function(b){
+  b.addEventListener("click", function(){ seg=b.getAttribute("data-s"); paintBtns(); build(); });
+});
+paintBtns();
 build();
+[60,150,350,700].forEach(function(t){setTimeout(function(){try{Plotly.Plots.resize(document.getElementById("chart"));}catch(e){}},t);});
 window.addEventListener("resize", function(){try{Plotly.Plots.resize(document.getElementById("chart"));}catch(e){}});
 window.addEventListener("load", function(){try{window.parent.postMessage({type:"afs-ready"}, "*");}catch(e){}});
 </script></body></html>
